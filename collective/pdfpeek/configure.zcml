@@ -1,0 +1,32 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="collective.pdfpeek">
+
+  <five:registerPackage package="." initialize=".initialize" />
+
+  <include package=".browser" />
+  
+  <subscriber 
+     for="Products.ATContentTypes.interface.file.IATFile
+          Products.Archetypes.interfaces.IObjectEditedEvent"
+     handler=".events.pdf_changed" />
+
+  <subscriber 
+     for="Products.ATContentTypes.interface.file.IATFile
+          Products.Archetypes.interfaces.IObjectInitializedEvent"
+     handler=".events.pdf_changed" />
+  
+  <genericsetup:registerProfile
+     name="default"
+     title="PdfPeek Module"
+     directory="profiles/default"
+     description="collective.pdfpeek module profile"
+     provides="Products.GenericSetup.interfaces.EXTENSION"
+     />
+  
+</configure>
+
+
+

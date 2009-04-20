@@ -1,0 +1,146 @@
+collective.pdfpeek integration doctest
+======================================
+
+This test is an integration test that uses PloneTestCase. Here, 'self' is
+the test class, so we can use 'self.folder', 'self.portal' and so on. The
+setup is done in tests/test_integration_doctests.py
+
+We first test that the low level machinery of the PDF to PNG transform works,
+we then test our event handlers to see if they fire the transform.
+
+Setup:
+------
+
+log in as the portal owner:
+
+    >>> self.loginAsPortalOwner()
+
+create a few file objects to work with:
+    
+    >>> self.portal.invokeFactory('File', id='test_pdf', title='Test PDF File')
+    'test_pdf'
+
+create another file object we keep empty for later:
+
+    >>> self.portal.invokeFactory('File', id='test_pdf_2', title='Second Test PDF File')
+    'test_pdf_2'
+    
+Testing the inner-workings of the collective.pdfpeek.transforms module:
+-----------------------------------------------------------------------
+
+Put some content in the file object (yes, we're basically testing ATFile here, what?):
+
+    >>> self.portal.test_pdf.setFile('this is a test')
+    >>> self.portal.test_pdf_2.setFile('this is another test for later')
+    >>> self.portal.test_pdf.getFile().get_data()
+    'this is a test'
+
+Let's get the current path and pass in the path with the test pdf file in
+the tests/ directory called plone.pdf:
+
+    >>> def mydir():
+    ...     import os.path, sys
+    ...     if __name__ == '__main__':
+    ...         filename = sys.argv[0]
+    ...     else:
+    ...         filename = __file__
+    ...     return os.path.abspath(os.path.dirname(filename))
+    >>> file_path = mydir() + """/plone.pdf"""
+    >>> pdf_file = open(file_path, mode='rb')
+
+Ok, now put a PDF file in the file object. Now we store the pdf_file we just opened
+on the first ATFile object we created:
+    
+    >>> self.portal.test_pdf.setFile(pdf_file)
+
+Let's check to be sure we've got the PDF in the ATFile object:
+
+    >>> self.portal.test_pdf.getFile().get_data()
+    '%PDF-1.5\r%\xe2\xe3\xcf\xd3\r\n10 0 obj\r...>>stream\r\nh\xdebb\x00\x01&FFCC\x06& \xab\x15D\xf2W\x82\xd9= \x92Q\x16(\xfb\x7f\xbf&X\x84\x81\x11D2\xfd\x07\x91\x8c\x0c\x00\x01\x06\x00\x86.\x05\x1b\rendstream\rendobj\rstartxref\r116\r%%EOF\r'
+    
+Get the mime type of the file stored in the ATFile object:
+
+    >>> field = self.portal.test_pdf.getField('file')
+    >>> field.getContentType(self.portal.test_pdf)
+    'application/pdf'
+
+Check that the mime type of the file with no pdf is text/plain:
+    
+    >>> field2 = self.portal.test_pdf_2.getField('file')
+    >>> field2.getContentType(self.portal.test_pdf_2)
+    'text/plain'
+
+Now initialize an instance of the transform class which will convert
+the pdf stored on the ATFile object to one PNG per page:
+
+    >>> from collective.pdfpeek.transforms import convertPDFToPNG
+    >>> converter = convertPDFToPNG()
+
+The converter should not work on this file that has no pdf content:
+    
+    >>> converter.generate_thumbnails(self.portal.test_pdf_2)
+    Not a PDF file.
+    Error: 0 pages in PDF file.
+    
+Now try the converter with the good data, it should work:
+    
+    >>> images = converter.generate_thumbnails(self.portal.test_pdf)
+    Found a PDF file with 1 pages.
+    Thumbnail generated.
+    
+And store the list of PNGs on the ATFile object as an annotation.
+
+    >>> from zope.annotation.interfaces import IAnnotations
+    >>> from zope.annotation.interfaces import IAttributeAnnotatable
+    >>> from zope.interface import alsoProvides
+    >>> alsoProvides(self.portal.test_pdf, IAttributeAnnotatable)
+    >>> annotations = IAnnotations(self.portal.test_pdf)
+    >>> annotations['pdfpeek'] = {}
+    >>> annotations['pdfpeek']['image_thumbnails'] = images
+
+OK, now let's try to access the annotation on the object:
+
+    >>> self.portal.test_pdf.__annotations__
+    <BTrees._OOBTree.OOBTree object at ...>
+
+Let's put the annotations in a dict:
+    
+    >>> dict(self.portal.test_pdf.__annotations__)
+    {'pdfpeek': {'image_thumbnails': ...}, 'Archetypes.storage.AnnotationStorage-file': <File at file>}
+    
+Testing collective.pdfpeek's event handler subsystem:
+-----------------------------------------------------
+
+So the converter works, let's try creating an ATFile object, the object
+should get the pdfpeek annotation when we add a pdf file to it and fire the proper event.
+
+    >>> self.portal.invokeFactory('File', id='test_pdf_3', title='Yet Another Test PDF File')
+    'test_pdf_3'
+
+OK, we've got another ATFile object, let's input the pdf file:
+    
+    >>> self.portal.test_pdf_3.setFile(pdf_file)
+
+We have the plone.pdf file stored in this third ATFile object, let's notify
+our event handler that the object has been edited; the event handler should detect
+the event and fire the transform, annotating the results on the ATFile object:
+
+    >>> from zope.event import notify
+    >>> import zope.component.event
+    >>> from Products.Archetypes.event import ObjectEditedEvent
+    >>> notify(ObjectEditedEvent(self.portal.test_pdf_3))
+    Found a PDF file with 1 pages.
+    Thumbnail generated.
+
+Now we should have the annotation on the object because the event handler fired:
+
+    >>> self.portal.test_pdf_3.__annotations__
+    <BTrees._OOBTree.OOBTree object at ...>
+
+Ok, so we have the annotations on there, but do they contain what we expect? Let's see:
+
+    >>> dict(self.portal.test_pdf_3.__annotations__)
+    {'pdfpeek': {'image_thumbnails': ...}, 'Archetypes.storage.AnnotationStorage-file': <File at file>}
+
+Hooray, the annotations are there after the event is fired, and they contain what we expect,
+the list of images output by the transform!

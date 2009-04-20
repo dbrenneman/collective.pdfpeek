@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<import-steps>
+ <import-step id="collective.pdfpeek-various" version="20090401-01"
+              handler="collective.pdfpeek.setuphandlers.importVarious"
+              title="pdfpeek product setup">
+  <dependency step="rolemap" />
+  collective.pdfpeek
+ </import-step>
+</import-steps>
+
+
