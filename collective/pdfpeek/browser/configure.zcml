@@ -4,16 +4,16 @@
     xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="collective.pdfpeek">
 
-    <!-- 'PdfPeek Theme' Zope 3 skin layer 
+    <!-- 'PdfPeek' Zope 3 skin layer 
         Register viewlets and pages for this zope 3 skin layer
-        to make sure they only apply to the 'PdfPeek Theme' theme.
+        to make sure they only apply to the 'PdfPeek' theme.
         You can also use this layer to override default Plone browser views
-        and viewlets only within the 'PdfPeek Theme' theme.
+        and viewlets only within the 'PdfPeek' theme.
       -->
     <interface
-        interface=".interfaces.IThemeSpecific"
+        interface=".interfaces.IPdfPeekThemeSpecific"
         type="zope.publisher.interfaces.browser.IBrowserSkinType"
-        name="PdfPeek Theme"
+        name="PdfPeek"
         />
 
     <!-- Resource directory for stylesheets -->
