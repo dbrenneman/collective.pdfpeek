@@ -1,3 +1,10 @@
+##########################################################################
+#                                                                        #
+#        copyright (c) 2009 David Brenneman                              #
+#        open-source under the GPL v2.1 (see LICENSE.txt)                #
+#                                                                        #
+##########################################################################
+
 from Acquisition import aq_inner
 
 from Products.Five.browser import BrowserView
