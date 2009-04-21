@@ -26,8 +26,10 @@ setup(name='collective.pdfpeek',
       zip_safe=False,
       install_requires=[
           'setuptools',
-          # -*- Extra requirements: -*-
           'pyPdf',
       ],
-      #entry_points=""
+      
+      entry_points="""
+      # stuff goes here
+      """,
       )
