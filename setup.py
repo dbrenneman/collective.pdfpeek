@@ -29,5 +29,5 @@ setup(name='collective.pdfpeek',
           # -*- Extra requirements: -*-
           'pyPdf',
       ],
-      entry_points=""
+      #entry_points=""
       )
