@@ -33,7 +33,7 @@
     <browser:page
         for="Products.ATContentTypes.interface.file.IATFile"
         name="view-image-annotation"
-        class=".browser.ImageAnnotationView"
+        class=".pdf.PdfImageAnnotationView"
         permission="zope2.View"
         />
         
