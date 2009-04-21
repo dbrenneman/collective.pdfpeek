@@ -20,14 +20,14 @@
     <browser:resourceDirectory
         name="collective.pdfpeek.stylesheets"
         directory="stylesheets"
-        layer=".interfaces.IThemeSpecific"
+        layer=".interfaces.IPdfPeekThemeSpecific"
         />
 
     <!-- Resource directory for images -->
     <browser:resourceDirectory
         name="collective.pdfpeek.images"
         directory="images"
-        layer=".interfaces.IThemeSpecific"
+        layer=".interfaces.IPdfPeekThemeSpecific"
         />
 
     <browser:page
