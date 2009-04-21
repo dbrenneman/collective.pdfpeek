@@ -11,7 +11,7 @@ from Products.Five.browser import BrowserView
 
 from plone.memoize.instance import memoize
 
-class PDFImageAnnotationView(BrowserView):
+class PdfImageAnnotationView(BrowserView):
     """view class used to access the image thumbnails that pdfpeek annotates on ATFile objects.
     """
     
