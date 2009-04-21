@@ -20,9 +20,9 @@
   
   <genericsetup:registerProfile
      name="default"
-     title="PdfPeek Module"
+     title="PdfPeek"
      directory="profiles/default"
-     description="collective.pdfpeek module profile"
+     description="collective.pdfpeek generic setup extension profile"
      provides="Products.GenericSetup.interfaces.EXTENSION"
      />
   
