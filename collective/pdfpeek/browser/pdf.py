@@ -16,7 +16,7 @@ class PdfImageAnnotationView(BrowserView):
     """
     
     @memoize
-    def pdf_image_annotation(self, page_number):
+    def pdf_image_annotation(self, page_number=0):
         context = aq_inner(self.context)
         annotations = dict(context.__annotations__)
         images = annotations['pdfpeek']['image_thumbnails']
