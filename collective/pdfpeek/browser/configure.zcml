@@ -36,5 +36,15 @@
         class=".pdf.PdfImageAnnotationView"
         permission="zope2.View"
         />
-        
+
+    <!-- A custom viewlet for PDFs only -->
+    <browser:viewlet
+       name="pdfpeek"
+       for="..interfaces.IPDF"
+       manager="plone.app.layout.viewlets.interfaces.IAboveContentBody"
+       layer=".interfaces.IPdfPeekThemeSpecific"
+       class=".viewlets.PdfpeekViewlet"
+       permission="zope2.View" 
+       />
+
 </configure>
