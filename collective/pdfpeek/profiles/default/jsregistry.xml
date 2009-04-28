@@ -17,11 +17,29 @@
       See registerScript() arguments in ResourceRegistries/tools/JSRegistry.py
       for the latest list of all available keys and default values.
       -->
-<!-- EXAMPLE (UNCOMMENT TO MAKE AVAILABLE):
- <javascript title=""
-    id="++resource++collective.pdfpeek.javascripts/something.js"
+ <javascript
+    id="++resource++collective.pdfpeek.javascripts/effects.js"
     cacheable="False" compression="safe" cookable="False"
     enabled="True" expression=""  inline="False"/>
--->
+
+ <javascript
+    id="++resource++collective.pdfpeek.javascripts/builder.js"
+    cacheable="False" compression="safe" cookable="False"
+    enabled="True" expression=""  inline="False"/>
+
+ <javascript
+    id="++resource++collective.pdfpeek.javascripts/lightbox.js"
+    cacheable="False" compression="safe" cookable="False"
+    enabled="True" expression=""  inline="False"/>
+
+ <javascript
+    id="++resource++collective.pdfpeek.javascripts/prototype.js"
+    cacheable="False" compression="safe" cookable="False"
+    enabled="True" expression=""  inline="False"/>
+
+ <javascript
+    id="++resource++collective.pdfpeek.javascripts/scriptaculous.js"
+    cacheable="False" compression="safe" cookable="False"
+    enabled="True" expression=""  inline="False"/>
 
 </object>
