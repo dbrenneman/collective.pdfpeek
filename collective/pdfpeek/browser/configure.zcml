@@ -44,6 +44,13 @@
         permission="zope2.View"
         />
 
+    <browser:page
+        for="*"
+        name="check-pdf"
+        class=".pdf.IsPdfView"
+        permission="zope2.View"
+        />
+
     <!-- A custom viewlet for PDFs only -->
     <browser:viewlet
        name="pdfpeek.content"
@@ -51,6 +58,16 @@
        manager="plone.app.layout.viewlets.interfaces.IAboveContentBody"
        layer=".interfaces.IThemeSpecific"
        template="templates/pdfpeek.pt"
+       permission="zope2.View" 
+       />
+
+    <!-- A custom viewlet for PDFs only -->
+    <browser:viewlet
+       name="pdfpeek.javascript"
+       for="collective.pdfpeek.interfaces.IPDF"
+       manager="plone.app.layout.viewlets.interfaces.IHtmlHead"
+       layer=".interfaces.IThemeSpecific"
+       template="templates/pdfpeek_javascript.pt"
        permission="zope2.View" 
        />
 

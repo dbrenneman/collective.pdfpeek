@@ -6,10 +6,10 @@
 ##########################################################################
 
 from Acquisition import aq_inner
-
 from Products.Five.browser import BrowserView
-
 from plone.memoize.instance import memoize
+
+from collective.pdfpeek.interfaces import IPDF
 
 class PdfImageAnnotationView(BrowserView):
     """view class used to access the image thumbnails that pdfpeek annotates on ATFile objects.
@@ -21,4 +21,14 @@ class PdfImageAnnotationView(BrowserView):
         annotations = dict(context.__annotations__)
         images = annotations['pdfpeek']['image_thumbnails']
         return images[page_number]
+    
 
+class IsPdfView(BrowserView):
+    """check to see if the object is a PDF
+    """
+    def is_pdf(self, object):
+        if IPDF.providedBy(object):
+            print "%s is a PDF." % self
+            return 1
+        else:
+            return None
