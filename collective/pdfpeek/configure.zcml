@@ -22,7 +22,7 @@
      name="default"
      title="PdfPeek"
      directory="profiles/default"
-     description="collective.pdfpeek generic setup extension profile"
+     description="Thumbnail Image Previews of PDF files."
      provides="Products.GenericSetup.interfaces.EXTENSION"
      />
   
