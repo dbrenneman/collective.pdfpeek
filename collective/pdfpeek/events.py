@@ -15,7 +15,8 @@ __docformat__ = 'plaintext'
 from zope.interface import alsoProvides
 from zope.annotation.interfaces import IAnnotations, IAttributeAnnotatable
 
-from transforms import convertPDFToPNG
+from collective.pdfpeek.transforms import convertPDFToPNG
+from collective.pdfpeek.interfaces import IPDF
 
 def pdf_changed(pdf, event):
     """
@@ -23,10 +24,17 @@ def pdf_changed(pdf, event):
     and calls the appropriate functions to convert the pdf to png thumbnails
     and store the list of thumbnails annotated on the file object.
     """
-    image_converter = convertPDFToPNG()
-    images = image_converter.generate_thumbnails(pdf)
-    alsoProvides(pdf, IAttributeAnnotatable)
-    annotations = IAnnotations(pdf)
-    annotations['pdfpeek'] = {}
-    annotations['pdfpeek']['image_thumbnails'] = images
+    if pdf.getContentType() == 'application/pdf':
+        """Mark the object with the IPDF marker interface."""
+        alsoProvides(pdf, IPDF)
+        image_converter = convertPDFToPNG()
+        images = image_converter.generate_thumbnails(pdf)
+        alsoProvides(pdf, IAttributeAnnotatable)
+        annotations = IAnnotations(pdf)
+        annotations['pdfpeek'] = {}
+        annotations['pdfpeek']['image_thumbnails'] = images
+        
+        if IPDF.providedBy(pdf):
+            print "IPDF Marker Interface Applied."
+    
     return None

@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
 <layers>
-    <layer name="collective.pdfpeek" 
-           interface="collective.pdfpeek.interfaces.ILayer" />
+    <layer name="PdfPeek Theme" 
+           interface="collective.pdfpeek.browser.interfaces.IThemeSpecific" />
 </layers>

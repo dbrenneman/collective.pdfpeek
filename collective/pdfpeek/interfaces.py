@@ -12,9 +12,6 @@ __docformat__ = 'plaintext'
 
 from zope.interface import Interface
 
-class ILayer(Interface):
-    """Marker interface that will be applied to the request when this product is installed."""
-
 class IPDF(Interface):
     """Marker interface denoting a pdf document."""
 

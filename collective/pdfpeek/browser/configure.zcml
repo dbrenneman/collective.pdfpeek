@@ -11,23 +11,23 @@
         and viewlets only within the 'PdfPeek' theme.
       -->
     <interface
-        interface=".interfaces.IPdfPeekThemeSpecific"
+        interface=".interfaces.IThemeSpecific"
         type="zope.publisher.interfaces.browser.IBrowserSkinType"
-        name="PdfPeek"
+        name="PdfPeek Theme"
         />
 
     <!-- Resource directory for stylesheets -->
     <browser:resourceDirectory
         name="collective.pdfpeek.stylesheets"
         directory="stylesheets"
-        layer=".interfaces.IPdfPeekThemeSpecific"
+        layer=".interfaces.IThemeSpecific"
         />
 
     <!-- Resource directory for images -->
     <browser:resourceDirectory
         name="collective.pdfpeek.images"
         directory="images"
-        layer=".interfaces.IPdfPeekThemeSpecific"
+        layer=".interfaces.IThemeSpecific"
         />
 
     <browser:page
@@ -39,11 +39,11 @@
 
     <!-- A custom viewlet for PDFs only -->
     <browser:viewlet
-       name="pdfpeek"
-       for="..interfaces.IPDF"
+       name="pdfpeek.content"
+       for="collective.pdfpeek.interfaces.IPDF"
        manager="plone.app.layout.viewlets.interfaces.IAboveContentBody"
-       layer=".interfaces.IPdfPeekThemeSpecific"
-       class=".viewlets.PdfpeekViewlet"
+       layer=".interfaces.IThemeSpecific"
+       template="templates/pdfpeek.pt"
        permission="zope2.View" 
        />
 
