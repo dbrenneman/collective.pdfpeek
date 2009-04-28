@@ -13,8 +13,9 @@ __author__ = """David Brenneman <db@davidbrenneman.com>"""
 __docformat__ = 'plaintext'
 
 from zope.interface import implements
-from interfaces import IConvertPDFToPNG
-import subprocess, cStringIO
+from collective.pdfpeek.interfaces import IConvertPDFToPNG
+import subprocess
+import cStringIO
 import pyPdf
 
 
@@ -90,3 +91,4 @@ class convertPDFToPNG(object):
         else:
             print "Error: %d pages in PDF file." % (document_page_count)
         return images
+
