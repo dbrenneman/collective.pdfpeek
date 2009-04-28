@@ -18,27 +18,27 @@
       for the latest list of all available keys and default values.
       -->
  <javascript
-    id="++resource++collective.pdfpeek.javascripts/effects.js"
+    id="++resource++collective.pdfpeek.javascript/effects.js"
     cacheable="False" compression="safe" cookable="False"
     enabled="True" expression=""  inline="False"/>
 
  <javascript
-    id="++resource++collective.pdfpeek.javascripts/builder.js"
+    id="++resource++collective.pdfpeek.javascript/builder.js"
     cacheable="False" compression="safe" cookable="False"
     enabled="True" expression=""  inline="False"/>
 
  <javascript
-    id="++resource++collective.pdfpeek.javascripts/lightbox.js"
+    id="++resource++collective.pdfpeek.javascript/lightbox.js"
     cacheable="False" compression="safe" cookable="False"
     enabled="True" expression=""  inline="False"/>
 
  <javascript
-    id="++resource++collective.pdfpeek.javascripts/prototype.js"
+    id="++resource++collective.pdfpeek.javascript/prototype.js"
     cacheable="False" compression="safe" cookable="False"
     enabled="True" expression=""  inline="False"/>
 
  <javascript
-    id="++resource++collective.pdfpeek.javascripts/scriptaculous.js"
+    id="++resource++collective.pdfpeek.javascript/scriptaculous.js"
     cacheable="False" compression="safe" cookable="False"
     enabled="True" expression=""  inline="False"/>
 

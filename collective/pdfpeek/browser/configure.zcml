@@ -16,6 +16,13 @@
         name="PdfPeek Theme"
         />
 
+    <!-- Resource directory for javascripts -->
+    <browser:resourceDirectory
+        name="collective.pdfpeek.javascript"
+        directory="javascript"
+        layer=".interfaces.IThemeSpecific"
+        />
+
     <!-- Resource directory for stylesheets -->
     <browser:resourceDirectory
         name="collective.pdfpeek.stylesheets"
@@ -48,3 +55,5 @@
        />
 
 </configure>
+
+

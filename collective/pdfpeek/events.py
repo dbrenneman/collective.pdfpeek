@@ -12,7 +12,7 @@ PdfPeek Event Handlers
 __author__ = """David Brenneman <db@davidbrenneman.com>"""
 __docformat__ = 'plaintext'
 
-from zope.interface import alsoProvides
+from zope.interface import alsoProvides, noLongerProvides
 from zope.annotation.interfaces import IAnnotations, IAttributeAnnotatable
 
 from collective.pdfpeek.transforms import convertPDFToPNG
@@ -35,6 +35,9 @@ def pdf_changed(pdf, event):
         annotations['pdfpeek']['image_thumbnails'] = images
         
         if IPDF.providedBy(pdf):
-            print "IPDF Marker Interface Applied."
+            print "IPDF Marker Interface Applied to %s." % pdf
+    else:
+        noLongerProvides(pdf, IPDF)
+        print "Marker Interface Removed from %s." % pdf
     
     return None
