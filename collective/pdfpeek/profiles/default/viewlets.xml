@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!-- This file holds the setup configuration of the viewlet managers
+     for the "PdfPeek Theme" skin.
+     -->
+
+<object>
+
+  <!-- Above content -->
+  <order manager="plone.htmlhead" skinname="PdfPeek Theme" based-on="Plone Default">
+    <viewlet name="plone.resourceregistries" />
+    <viewlet name="pdfpeek.javascript" />
+    <viewlet name="plone.htmlhead.kss-base-rul" />
+    <viewlet name="plone.htmlhead.title" />
+  </order>
+
+</object>
