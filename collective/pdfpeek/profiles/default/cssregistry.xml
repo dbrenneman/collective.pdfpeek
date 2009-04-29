@@ -23,12 +23,10 @@
       available keys and default values.
       -->
 
-<!--
-    <stylesheet title=""
-                id="++resource++collective.pdfpeek.stylesheets/main.css"
+    <stylesheet
+                id="++resource++collective.pdfpeek.stylesheets/lightbox.css"
                 media="screen" rel="stylesheet" rendering="import"
-                cacheable="False" compression="safe" cookable="False"
-                enabled="1" expression=""/>
--->
+                cacheable="True" compression="safe" cookable="False"
+                enabled="1" expression="object/@@check-pdf/is_pdf | nothing"/>
  
 </object>

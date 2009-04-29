@@ -26,9 +26,9 @@ class PdfImageAnnotationView(BrowserView):
 class IsPdfView(BrowserView):
     """check to see if the object is a PDF
     """
-    def is_pdf(self, object):
-        if IPDF.providedBy(object):
-            print "%s is a PDF." % self
-            return 1
-        else:
-            return None
+    @property    
+    def is_pdf(self):
+        if IPDF.providedBy(self.context):
+            return True
+        return False
+    

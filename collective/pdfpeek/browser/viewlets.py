@@ -26,14 +26,3 @@ class PdfpeekViewlet(ViewletBase):
 
     index = ViewPageTemplateFile('templates/pdfpeek.pt')
 
-class PdfpeekJavaScriptViewlet(ViewletBase):
-    """This viewlet injects the lightbox2 javascript into the
-    plone.htmlhead viewlet manager, just after the plone.resourceregistries
-    the order is configured in profiles/default/viewlets.xml, registration in
-    browser/configure.zcml
-    """
-    def update(self):
-        """
-        """
-
-    index = ViewPageTemplateFile('templates/pdfpeek_javascript.pt')

@@ -35,9 +35,9 @@ def pdf_changed(pdf, event):
         annotations['pdfpeek']['image_thumbnails'] = images
         
         if IPDF.providedBy(pdf):
-            print "IPDF Marker Interface Applied to %s." % pdf
+            print "IPDF Marker Interface Applied"
     else:
         noLongerProvides(pdf, IPDF)
-        print "Marker Interface Removed from %s." % pdf
+        print "Marker Interface Removed"
     
     return None

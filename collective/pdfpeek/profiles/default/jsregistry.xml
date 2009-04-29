@@ -16,32 +16,32 @@
       - 'cookable' (optional - default: True): boolean (aka 'merging allowed')
       See registerScript() arguments in ResourceRegistries/tools/JSRegistry.py
       for the latest list of all available keys and default values.
+-->
 
  <javascript
-    id="++resource++collective.pdfpeek.javascript/effects.js"
-    cacheable="False" compression="safe" cookable="False"
-    enabled="True" expression="python:request.check-pdf.is_pdf()"  inline="False"/>
+    id="effects.js"
+    cacheable="True" compression="safe" cookable="False"
+    enabled="True" expression="object/@@check-pdf/is_pdf | nothing"  inline="False"/>
  
  <javascript
-    id="++resource++collective.pdfpeek.javascript/builder.js"
-    cacheable="False" compression="safe" cookable="False"
-    enabled="True" expression="python:request.check-pdf.is_pdf()"  inline="False"/>
+    id="builder.js"
+    cacheable="True" compression="safe" cookable="False"
+    enabled="True" expression="object/@@check-pdf/is_pdf | nothing"  inline="False"/>
 
  <javascript
-    id="++resource++collective.pdfpeek.javascript/lightbox.js"
-    cacheable="False" compression="safe" cookable="False"
-    enabled="True" expression="python:request.check-pdf.is_pdf()"  inline="False"/>
+    id="lightbox.js"
+    cacheable="True" compression="safe" cookable="False"
+    enabled="True" expression="object/@@check-pdf/is_pdf | nothing"  inline="False"/>
 
  <javascript
-    id="++resource++collective.pdfpeek.javascript/prototype.js"
-    cacheable="False" compression="safe" cookable="False"
-    enabled="True" expression="python:request.check-pdf.is_pdf()"  inline="False"/>
+    id="prototype.js"
+    cacheable="True" compression="safe" cookable="False"
+    enabled="True" expression="object/@@check-pdf/is_pdf | nothing"  inline="False"/>
 
  <javascript
-    id="++resource++collective.pdfpeek.javascript/scriptaculous.js"
-    cacheable="False" compression="safe" cookable="False"
-    enabled="True" expression="python:request.check-pdf.is_pdf()"  inline="False"/>
+    id="scriptaculous.js"
+    cacheable="True" compression="safe" cookable="False"
+    enabled="True" expression="object/@@check-pdf/is_pdf | nothing"  inline="False"/>
  
- -->
  
 </object>
