@@ -24,9 +24,9 @@
       -->
 
     <stylesheet
-                id="++resource++collective.pdfpeek.stylesheets/lightbox.css"
+                id="lightbox.css"
                 media="screen" rel="stylesheet" rendering="import"
-                cacheable="True" compression="safe" cookable="False"
+                cacheable="False" compression="safe" cookable="False"
                 enabled="1" expression="object/@@check-pdf/is_pdf | nothing"/>
  
 </object>

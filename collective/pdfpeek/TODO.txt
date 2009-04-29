@@ -1,0 +1,6 @@
+set up the event handler to create ATImage objects in a pdfpeek folder at the
+root of the site instead of annotating them on to the ATFile object in a list.
+Then set up relationships between the ATFile and the ATImages. Also set up
+metadata on the image objects and the file object that store a unique key.
+That way we can easily search for all of the ATImage objects associated with
+our ATFile object.
