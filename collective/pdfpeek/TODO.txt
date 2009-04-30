@@ -4,3 +4,6 @@ Then set up relationships between the ATFile and the ATImages. Also set up
 metadata on the image objects and the file object that store a unique key.
 That way we can easily search for all of the ATImage objects associated with
 our ATFile object.
+
+create an images module to contain all of the classes that deal with ATImage
+objects.
