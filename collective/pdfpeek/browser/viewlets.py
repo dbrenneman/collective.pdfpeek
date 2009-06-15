@@ -6,7 +6,7 @@
 ##########################################################################
 
 """
-PdfPeek Viewlets
+PDFpeek Viewlets
 """
 
 __author__ = """David Brenneman <db@davidbrenneman.com>"""

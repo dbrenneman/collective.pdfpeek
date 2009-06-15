@@ -101,7 +101,7 @@ And store the list of PNGs on the ATFile object as an annotation.
 OK, now let's try to access the annotation on the object:
 
     >>> self.portal.test_pdf.__annotations__
-    <BTrees._OOBTree.OOBTree object at ...>
+    <BTrees.OOBTree.OOBTree object at ...>
 
 Let's put the annotations in a dict:
     
@@ -135,7 +135,7 @@ the event and fire the transform, annotating the results on the ATFile object:
 Now we should have the annotation on the object because the event handler fired:
 
     >>> self.portal.test_pdf_3.__annotations__
-    <BTrees._OOBTree.OOBTree object at ...>
+    <BTrees.OOBTree.OOBTree object at ...>
 
 Ok, so we have the annotations on there, but do they contain what we expect? Let's see:
 

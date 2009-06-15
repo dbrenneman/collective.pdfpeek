@@ -20,7 +20,7 @@
   
   <genericsetup:registerProfile
      name="default"
-     title="PdfPeek"
+     title="PDFpeek"
      directory="profiles/default"
      description="Thumbnail Image Previews of PDF files."
      provides="Products.GenericSetup.interfaces.EXTENSION"

@@ -6,7 +6,7 @@
 ##########################################################################
 
 """
-PdfPeek Event Handlers
+PDFpeek Event Handlers
 """
 
 __author__ = """David Brenneman <db@davidbrenneman.com>"""
@@ -35,6 +35,12 @@ def pdf_changed(pdf, event):
         annotations['pdfpeek']['image_thumbnails'] = images
         
     else:
+        # a file was uploaded that is not a PDF
+
+        # remove the marker interface
         noLongerProvides(pdf, IPDF)
-    
+        
+        # remove the annotated images
+        IAnnotations(pdf)
+        annotations['pdfpeek'] = {}
     return None
