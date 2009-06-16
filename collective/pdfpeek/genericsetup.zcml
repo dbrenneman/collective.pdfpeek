@@ -1,0 +1,18 @@
+<configure
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="genericsetup">
+  <genericsetup:registerProfile
+     name="default"
+     title="PDFpeek"
+     directory="profiles/default"
+     description="Thumbnail Image Previews of PDF files."
+     provides="Products.GenericSetup.interfaces.EXTENSION"
+     />
+  <genericsetup:importStep
+      name="collective.pdfpeek-various"
+      title="PDFpeek Import Step"
+      description="Import steps for collective.pdfpeek"
+      handler="collective.pdfpeek.setuphandlers.importVarious">
+    <!--<depends name="something.else"/>-->
+  </genericsetup:importStep>
+</configure>
