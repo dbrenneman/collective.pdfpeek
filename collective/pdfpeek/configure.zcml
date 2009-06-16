@@ -7,6 +7,7 @@
   <five:registerPackage package="." initialize=".initialize" />
 
   <include package=".browser" />
+  <include package="." file="genericsetup.zcml" />
   
   <subscriber 
      for="Products.ATContentTypes.interface.file.IATFile
@@ -17,15 +18,7 @@
      for="Products.ATContentTypes.interface.file.IATFile
           Products.Archetypes.interfaces.IObjectInitializedEvent"
      handler=".events.pdf_changed" />
-  
-  <genericsetup:registerProfile
-     name="default"
-     title="PDFpeek"
-     directory="profiles/default"
-     description="Thumbnail Image Previews of PDF files."
-     provides="Products.GenericSetup.interfaces.EXTENSION"
-     />
-  
+    
 </configure>
 
 
