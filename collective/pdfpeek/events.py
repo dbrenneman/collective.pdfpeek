@@ -42,5 +42,6 @@ def pdf_changed(pdf, event):
         
         # remove the annotated images
         IAnnotations(pdf)
+        annotations = IAnnotations(pdf)
         annotations['pdfpeek'] = {}
     return None
