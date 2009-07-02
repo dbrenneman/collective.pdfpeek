@@ -15,4 +15,11 @@
       handler="collective.pdfpeek.setuphandlers.importVarious">
     <!--<depends name="something.else"/>-->
   </genericsetup:importStep>
+  <genericsetup:registerProfile
+     name="uninstall"
+     title="Uninstall PDFpeek"
+     directory="profiles/uninstall"
+     description="Uninstall Thumbnail Image Previews of PDF files."
+     provides="Products.GenericSetup.interfaces.EXTENSION"
+     />
 </configure>
