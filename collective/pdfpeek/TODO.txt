@@ -1,13 +1,9 @@
-* Implement control panel for adding image previews to existing file objects 
+=========================
+ collective.pdfpeek TODO
+=========================
+
+* Implement control panel for adding and removing image previews on file objects 
       containing PDF files.
-* register import steps via zcml rather than xml
-* set up skins.xml so that you don't need a separate pdf peek theme, right now
-      if I were to install your product it would set your theme as the default. 
-      Instead don't set the default and add your skin paths to *
-* use the plone.app.browserlayer instead of the IThemeSpecific so that you can 
-      install your package into any theme
-* create uninstall profile
-* remove your skin paths, and any other items set with your profile
-* make sure and remove the pdfpeek image from the object if the file gets 
-      chagned to something else in your subscriber
-* remove YAGNI xml files from your profile
+* Create uninstall profile.
+* Remove any items set with your profile in the uninstall.
+* remove YAGNI xml files from the gs profile.
