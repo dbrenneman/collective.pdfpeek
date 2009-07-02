@@ -144,3 +144,19 @@ Ok, so we have the annotations on there, but do they contain what we expect? Let
 
 Hooray, the annotations are there after the event is fired, and they contain what we expect,
 the list of images output by the transform!
+
+Now let's try putting some non-pdf content in the file object:
+
+First we open a text file to replace the pdf with:
+
+    >>> text_file_path = mydir() + """/plone.txt"""
+    >>> text_file = open(file_path, mode='r')
+    >>> self.portal.test_pdf_3.setFile(text_file)
+
+Then let's notify the subscriber / event handler that our file object has changed:
+
+    >>> notify(ObjectEditedEvent(self.portal.test_pdf_3))
+
+Now there shouldn't be any annotations any more:
+
+    >>> self.portal.test_pdf_3.__annotations__

@@ -1,0 +1,12 @@
+What is Plone?
+A powerful, flexible Content Management
+solution that is easy to install, use and extend
+
+Plone lets non-technical people create and maintain information using
+only a web browser. Perfect for web sites or intranets, Plone offers
+superior security without sacrificing extensibility or ease of use.
+Plone is among the top 2% of all open source projects worldwide, with 200 core developers and more than 300 solution providers in 57 countries. 
+The project has been actively developed since 2001, is available in more than 40 languages, and has the best security  track record of any major CMS.
+It is owned by the Plone Foundation, a 501(c)(3) not-for-profit organization, and is available for all major operating systems.
+Sources: CVE and Ohloh. 
+
