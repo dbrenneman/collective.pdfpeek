@@ -150,8 +150,12 @@ Now let's try putting some non-pdf content in the file object:
 First we open a text file to replace the pdf with:
 
     >>> text_file_path = mydir() + """/plone.txt"""
-    >>> text_file = open(file_path, mode='r')
+    >>> text_file = open(text_file_path, mode='rb')
+    >>> text_file
+    <open file ...>
     >>> self.portal.test_pdf_3.setFile(text_file)
+    >>> self.portal.test_pdf_3.getContentType()
+    'text/plain'
 
 Then let's notify the subscriber / event handler that our file object has changed:
 
