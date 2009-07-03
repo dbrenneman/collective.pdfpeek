@@ -153,6 +153,7 @@ First we open a text file to replace the pdf with:
     >>> text_file = open(text_file_path, mode='rb')
     >>> text_file
     <open file ...>
+
     >>> self.portal.test_pdf_3.setFile(text_file)
     >>> self.portal.test_pdf_3.getContentType()
     'text/plain'
@@ -163,4 +164,6 @@ Then let's notify the subscriber / event handler that our file object has change
 
 Now there shouldn't be any annotations any more:
 
-    >>> self.portal.test_pdf_3.__annotations__
+    >>> dict(self.portal.test_pdf_3.__annotations__)
+    {'pdfpeek': {}, 'Archetypes.storage.AnnotationStorage-file': <File at file>}
+    
