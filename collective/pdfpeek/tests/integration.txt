@@ -166,4 +166,8 @@ Now there shouldn't be any annotations any more:
 
     >>> dict(self.portal.test_pdf_3.__annotations__)
     {'pdfpeek': {}, 'Archetypes.storage.AnnotationStorage-file': <File at file>}
+
+
+
+
     
