@@ -81,11 +81,11 @@ class convertPDFToPNG(object):
             print "Found a PDF file with %d pages." % (document_page_count)
         else:
             print "Not a PDF file."
-            
+        
+        images = []
         if document_page_count > 0:
             for page in range(document_page_count):
                 page_number = page + 1
-                images = []
                 images += [self.ghostscript_transform(pdf_file, page_number)] 
                 print "Thumbnail generated."
         else:
