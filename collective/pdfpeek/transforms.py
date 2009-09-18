@@ -27,7 +27,11 @@ class convertPDFToPNG(object):
     implements(IConvertPDFToPNG)
     
     def ghostscript_transform(self, pdf_file, page_num):
-        """ghostscript_transform takes an ATFile object with an IPDF interface and a page number argument and converts that page number of the pdf file to a png image file."""
+        """
+        ghostscript_transform takes an ATFile object with an IPDF interface
+        and a page number argument and converts that page number of the pdf
+        file to a png image file.
+        """
         first_page = "-dFirstPage=%s" % (page_num)
         last_page = "-dLastPage=%s" % (page_num)
         gs_cmd = [
