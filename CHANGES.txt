@@ -1,0 +1,11 @@
+Changelog
+=========
+
+
+0.4 (xxxx-xx-xx)
+-----------------
+
+ - Refactored event handler object variable name.
+ 
+ - Removed unneeded files from default GS Ext. profile.
+ 
