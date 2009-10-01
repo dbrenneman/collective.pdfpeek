@@ -13,5 +13,14 @@ Changelog
  - Removed unneeded files from default GS Ext. profile.
  
  - Removed unneeded javascript files and associated images and css.
- 
- 
+
+0.3 - 2009-08-03
+----------------
+
+- fixed parsing of pdf files with multiple pages
+  [piv]
+
+0.1 - Unreleased
+----------------
+
+- Initial release
