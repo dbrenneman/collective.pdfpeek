@@ -12,11 +12,15 @@ PDF to Image Converter Class
 __author__ = """David Brenneman <db@davidbrenneman.com>"""
 __docformat__ = 'plaintext'
 
-from zope.interface import implements
-from collective.pdfpeek.interfaces import IConvertPDFToPNG
 import subprocess
 import cStringIO
+
 import pyPdf
+
+from zope.interface import implements
+from OFS.Image import Image
+
+from collective.pdfpeek.interfaces import IConvertPDFToPNG
 
 
 class convertPDFToPNG(object):
@@ -74,12 +78,11 @@ class convertPDFToPNG(object):
         document_page_count = 0
         page_number = 1
         images = None
-        pdf_file_data = pdf_file.getFile()
-        pdf_file_data_string = cStringIO.StringIO(pdf_file_data.get_data())
         """If the file is a pdf file then we look inside with PyPDF and see
         how many pages there are.
         """
         if pdf_file.getContentType() == 'application/pdf':
+            pdf_file_data_string = cStringIO.StringIO(pdf_file.getFile().get_data())
             pdf = pyPdf.PdfFileReader(pdf_file_data_string)
             document_page_count = pdf.getNumPages()
             print "Found a PDF file with %d pages." % (document_page_count)
@@ -90,7 +93,11 @@ class convertPDFToPNG(object):
         if document_page_count > 0:
             for page in range(document_page_count):
                 page_number = page + 1
-                images += [self.ghostscript_transform(pdf_file, page_number)] 
+                image_id = "%d" % page_number
+                image_title = "Page %d" % page_number
+                raw_image = self.ghostscript_transform(pdf_file, page_number)
+                image_object = Image(image_id, image_title, raw_image)
+                images += [image_object] 
                 print "Thumbnail generated."
         else:
             print "Error: %d pages in PDF file." % (document_page_count)

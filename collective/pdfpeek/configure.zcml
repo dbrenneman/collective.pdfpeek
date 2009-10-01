@@ -8,17 +8,8 @@
 
   <include package=".browser" />
   <include package="." file="genericsetup.zcml" />
-  
-  <subscriber 
-     for="Products.ATContentTypes.interface.file.IATFile
-          Products.Archetypes.interfaces.IObjectEditedEvent"
-     handler=".events.pdf_changed" />
+  <include package="." file="events.zcml" />
 
-  <subscriber 
-     for="Products.ATContentTypes.interface.file.IATFile
-          Products.Archetypes.interfaces.IObjectInitializedEvent"
-     handler=".events.pdf_changed" />
-    
 </configure>
 
 

@@ -81,6 +81,7 @@ The converter should not work on this file that has no pdf content:
     >>> converter.generate_thumbnails(self.portal.test_pdf_2)
     Not a PDF file.
     Error: 0 pages in PDF file.
+    []
     
 Now try the converter with the good data, it should work:
     
@@ -101,7 +102,7 @@ And store the list of PNGs on the ATFile object as an annotation.
 OK, now let's try to access the annotation on the object:
 
     >>> self.portal.test_pdf.__annotations__
-    <BTrees.OOBTree.OOBTree object at ...>
+    <BTrees._OOBTree.OOBTree object at ...>
 
 Let's put the annotations in a dict:
     
@@ -135,12 +136,13 @@ the event and fire the transform, annotating the results on the ATFile object:
 Now we should have the annotation on the object because the event handler fired:
 
     >>> self.portal.test_pdf_3.__annotations__
-    <BTrees.OOBTree.OOBTree object at ...>
+    <BTrees._OOBTree.OOBTree object at ...>
 
 Ok, so we have the annotations on there, but do they contain what we expect? Let's see:
 
     >>> dict(self.portal.test_pdf_3.__annotations__)
-    {'pdfpeek': {'image_thumbnails': ...}, 'Archetypes.storage.AnnotationStorage-file': <File at file>}
+    {'pdfpeek': {'image_thumbnails': [<Image at 1>]}, 'Archetypes.storage.AnnotationStorage-file': <File at file>}
+
 
 Hooray, the annotations are there after the event is fired, and they contain what we expect,
 the list of images output by the transform!

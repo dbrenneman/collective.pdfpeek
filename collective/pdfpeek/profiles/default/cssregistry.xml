@@ -23,10 +23,10 @@
       available keys and default values.
       -->
 
-    <stylesheet
+    <!-- <stylesheet
                 id="lightbox.css"
                 media="screen" rel="stylesheet" rendering="import"
                 cacheable="False" compression="safe" cookable="False"
-                enabled="1" expression="object/@@check-pdf/is_pdf | nothing"/>
+                enabled="1" expression="object/@@check-pdf/is_pdf | nothing"/> -->
  
 </object>

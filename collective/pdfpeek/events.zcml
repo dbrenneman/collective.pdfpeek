@@ -1,0 +1,19 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    i18n_domain="collective.pdfpeek">
+
+  <subscriber 
+     for="Products.ATContentTypes.interface.file.IATFile
+          Products.Archetypes.interfaces.IObjectEditedEvent"
+     handler=".events.pdf_changed" />
+
+  <subscriber 
+     for="Products.ATContentTypes.interface.file.IATFile
+          Products.Archetypes.interfaces.IObjectInitializedEvent"
+     handler=".events.pdf_changed" />
+    
+    
+</configure>
+
+  

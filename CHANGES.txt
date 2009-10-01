@@ -2,10 +2,16 @@ Changelog
 =========
 
 
-0.4 (xxxx-xx-xx)
+0.4 (2009-10-01)
 -----------------
+
+ - Refactored storage to use OFS.Image.Image() objects instead of storing the
+   raw binary data in string format.
 
  - Refactored event handler object variable name.
  
  - Removed unneeded files from default GS Ext. profile.
+ 
+ - Removed unneeded javascript files and associated images and css.
+ 
  
