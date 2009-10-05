@@ -19,10 +19,20 @@
 -->
 
  <!-- <javascript
-    id="scriptaculous.js"
+    id="++resource++collective.pdfpeek.javascript/jquery-1.3.2.min.js"
     cacheable="False" compression="safe" cookable="False"
     enabled="True" expression="object/@@check-pdf/is_pdf | nothing"  inline="False"/> -->
+
+ <javascript
+    id="++resource++collective.pdfpeek.javascript/jquery.reflect.js"
+    cacheable="True" compression="safe" cookable="True"
+    enabled="True" expression="object/@@check-pdf/is_pdf | nothing"  inline="False"/>
  
- 
+ <javascript
+    id="++resource++collective.pdfpeek.javascript/jquery.tools.min.js"
+    cacheable="False" compression="safe" cookable="False"
+    enabled="True" expression="object/@@check-pdf/is_pdf | nothing"  inline="False"/>
+
+
 </object>
 

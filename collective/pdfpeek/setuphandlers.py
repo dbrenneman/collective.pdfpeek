@@ -5,7 +5,9 @@
 #                                                                        #
 ##########################################################################
 
-    
+from collective.pdfpeek.browser.pdf import PDFPeekConfiguration
+from collective.pdfpeek.interfaces import IPDFPeekConfiguration
+
 def importVarious(context):
     """Miscellanous steps import handle
     """
@@ -19,5 +21,9 @@ def importVarious(context):
         return
     
     # Add additional setup code here
-    #portal = context.getSite()
-    
+    portal = context.getSite()
+    sm = portal.getSiteManager()
+
+    if not sm.queryUtility(IPDFPeekConfiguration, name='pdfpeek_config'):
+        sm.registerUtility(PDFPeekConfiguration(), IPDFPeekConfiguration, 'pdfpeek_config')
+

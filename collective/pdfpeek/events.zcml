@@ -4,12 +4,12 @@
     i18n_domain="collective.pdfpeek">
 
   <subscriber 
-     for="Products.ATContentTypes.interface.file.IATFile
+     for="Products.Archetypes.interfaces.IBaseObject
           Products.Archetypes.interfaces.IObjectEditedEvent"
      handler=".events.pdf_changed" />
 
   <subscriber 
-     for="Products.ATContentTypes.interface.file.IATFile
+     for="Products.Archetypes.interfaces.IBaseObject
           Products.Archetypes.interfaces.IObjectInitializedEvent"
      handler=".events.pdf_changed" />
     

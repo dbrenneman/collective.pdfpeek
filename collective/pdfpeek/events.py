@@ -33,7 +33,6 @@ def pdf_changed(content, event):
         annotations = IAnnotations(content)
         annotations['pdfpeek'] = {}
         annotations['pdfpeek']['image_thumbnails'] = images
-        
     else:
         # a file was uploaded that is not a PDF
 
@@ -43,5 +42,6 @@ def pdf_changed(content, event):
         # remove the annotated images
         IAnnotations(content)
         annotations = IAnnotations(content)
-        annotations['pdfpeek'] = {}
+        if 'pdfpeek' in annotations:
+            del annotations['pdfpeek']
     return None

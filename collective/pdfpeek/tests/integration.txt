@@ -81,7 +81,6 @@ The converter should not work on this file that has no pdf content:
     >>> converter.generate_thumbnails(self.portal.test_pdf_2)
     Not a PDF file.
     Error: 0 pages in PDF file.
-    []
     
 Now try the converter with the good data, it should work:
     
@@ -89,7 +88,7 @@ Now try the converter with the good data, it should work:
     Found a PDF file with 1 pages.
     Thumbnail generated.
     
-And store the list of PNGs on the ATFile object as an annotation.
+And store the list of jpegs on the ATFile object as an annotation.
 
     >>> from zope.annotation.interfaces import IAnnotations
     >>> from zope.annotation.interfaces import IAttributeAnnotatable
@@ -107,7 +106,7 @@ OK, now let's try to access the annotation on the object:
 Let's put the annotations in a dict:
     
     >>> dict(self.portal.test_pdf.__annotations__)
-    {'pdfpeek': {'image_thumbnails': ...}, 'Archetypes.storage.AnnotationStorage-file': <File at file>}
+    {'pdfpeek': {'image_thumbnails': {'1_preview': <Image at 1_preview>, '1_thumb': <Image at 1_thumb>}}, 'Archetypes.storage.AnnotationStorage-file': <File at file>}
     
 Testing collective.pdfpeek's event handler subsystem:
 -----------------------------------------------------
@@ -141,8 +140,15 @@ Now we should have the annotation on the object because the event handler fired:
 Ok, so we have the annotations on there, but do they contain what we expect? Let's see:
 
     >>> dict(self.portal.test_pdf_3.__annotations__)
-    {'pdfpeek': {'image_thumbnails': [<Image at 1>]}, 'Archetypes.storage.AnnotationStorage-file': <File at file>}
+    {'pdfpeek': {'image_thumbnails': {'1_preview': <Image at 1_preview>, '1_thumb': <Image at 1_thumb>}}, 'Archetypes.storage.AnnotationStorage-file': <File at file>}
 
+    >>> annotations = dict(self.portal.test_pdf_3.__annotations__)
+    >>> image = annotations['pdfpeek']['image_thumbnails']['1_preview']
+    >>> image
+    <Image at 1_preview>
+
+    >>> image.getContentType()
+    'image/jpeg'
 
 Hooray, the annotations are there after the event is fired, and they contain what we expect,
 the list of images output by the transform!
@@ -167,7 +173,7 @@ Then let's notify the subscriber / event handler that our file object has change
 Now there shouldn't be any annotations any more:
 
     >>> dict(self.portal.test_pdf_3.__annotations__)
-    {'pdfpeek': {}, 'Archetypes.storage.AnnotationStorage-file': <File at file>}
+    {'Archetypes.storage.AnnotationStorage-file': <File at file>}
 
 
 

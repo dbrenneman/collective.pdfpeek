@@ -4,6 +4,6 @@
  <action-icon category="controlpanel"
               action_id="collective.pdfpeek"
               title="PDF Peek" priority="0"
-              icon_expr="pdf_icon.gif"
+              icon_expr="++resource++collective.pdfpeek.images/pdfpeek_icon.png"
               i18n:attributes="title"/>
 </action-icons>

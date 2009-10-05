@@ -18,30 +18,10 @@
       for the latest list of all available keys and default values.
 -->
 
- <javascript
-    id="effects.js"
-    cacheable="False" compression="safe" cookable="False"
-    enabled="True" expression="object/@@check-pdf/is_pdf | nothing"  inline="False"/>
- 
- <javascript
-    id="builder.js"
-    cacheable="False" compression="safe" cookable="False"
-    enabled="True" expression="object/@@check-pdf/is_pdf | nothing"  inline="False"/>
-
- <javascript
-    id="lightbox.js"
-    cacheable="False" compression="safe" cookable="False"
-    enabled="True" expression="object/@@check-pdf/is_pdf | nothing"  inline="False"/>
-
- <javascript
-    id="prototype.js"
-    cacheable="False" compression="safe" cookable="False"
-    enabled="True" expression="object/@@check-pdf/is_pdf | nothing"  inline="False"/>
-
- <javascript
+ <!-- <javascript
     id="scriptaculous.js"
     cacheable="False" compression="safe" cookable="False"
-    enabled="True" expression="object/@@check-pdf/is_pdf | nothing"  inline="False"/>
+    enabled="True" expression="object/@@check-pdf/is_pdf | nothing"  inline="False"/> -->
  
  
 </object>

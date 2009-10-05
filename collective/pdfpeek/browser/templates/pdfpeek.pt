@@ -1,1 +1,121 @@
-<a href="http://farm4.static.flickr.com/3189/2967179365_ce2427d8e7_b_d.jpg" rel="prettyPhoto" title="Plone Rocks!"><img src="http://farm4.static.flickr.com/3189/2967179365_ce2427d8e7_b_d.jpg" alt=""/></a>
+<!-- thumbnail scrollable -->
+<div class="navi prevPage"></div>
+
+<div id="thumbnails">
+	<div class="items">
+        <span tal:repeat="page context/view-image-annotation/num_pages">
+            <div tal:define="pagenum python:page + 1">
+		        <div><img src="img.jpg" tal:attributes="src string:${context/absolute_url}/++images++${pagenum}_thumb"/></div>
+            </div>
+        </span>
+	</div>
+</div>
+
+<div class="navi nextPage"></div>
+
+<br clear="all" />
+
+<!-- overlay -->
+<div id="box">
+
+	<!-- overlay scrollable -->
+	<div id="images">
+
+		<div class="items">
+
+        <span tal:repeat="page context/view-image-annotation/num_pages">
+            <div tal:define="pagenum python:page + 1">
+			    <div title="02" tal:attributes="title string:++images++${pagenum}_preview">
+
+				    <div class="info">
+					    <h3>A Blue Flower</h3>
+
+					    <p>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur.</p>
+                    </div>
+                </div>
+            </div>
+        </span>
+		
+			
+		</div>
+
+	</div>
+
+	<!-- prev/next buttons -->
+	<div class="navi prevPage"></div>
+	<div class="navi nextPage"></div>
+
+	<a class="close" href="#"> &nbsp; &nbsp; &nbsp; </a>
+</div>
+<script>
+jq(function() {
+
+	
+
+	// thumbnail scrollable
+	jq("#thumbnails").scrollable({size: 4, clickable: false}).find("img").each(function(index) {
+
+		// thumbnail images trigger the overlay
+		jq(this).overlay({
+
+			effect: 'apple',
+			target: '#box',
+			expose: {maskId: 'mask'},
+
+			/*
+				when box is opened, scroll to correct position (in 0 seconds)
+				the "images" variable is defined below
+			*/
+			onLoad: function() {
+				images.seekTo(index, 0);
+			}
+		});
+	});
+
+	
+
+	// scrollable inside the box. Its API is assigned to the "images" variable
+	var images = jq("#images").scrollable({size: 1, api:true});
+
+
+	// enable reflections
+	jq("#thumbnails img").reflect({height: 0.5, opacity: 0.6});
+
+	
+	// when scrollable moves ...
+	images.onSeek(function() {
+
+		var i = this.getIndex();
+
+		// grab previous/current/next items and place the image inside them
+		this.getItems().slice(Math.max(i-2, 0), i+2).each(function() {
+
+			var el = jq(this);
+
+			// if image has not already been created ...
+			if (!el.find("img").length) {
+
+				// create it
+				var img = jq("<img/>");
+				img.attr("src", el.attr("title"));
+				el.prepend(img).removeAttr("title");
+
+
+				// and initialize the tooltip for it
+				img.tooltip({
+					position: 'bottom center',
+					offset: [-85, -30],
+					opacity: 0.8,
+					effect: 'fade',
+
+					// position tooltips relative to the parent scrollable
+					relative: true
+				});
+			}
+		});
+	});
+	
+
+});
+</script>
+
