@@ -1,0 +1,64 @@
+Changelog
+=========
+
+0.5 (2009-10-05)
+-----------------
+
+ - Added control panel configlet.
+   [dbrenneman]
+
+ - Removed unneeded xml files from uninstall profile.
+   [dbrenneman]
+ 
+ - Optimized transform.
+   [dbrenneman]
+ 
+ - Added storage of image thumbnail along with image, generated with PIL.
+   [dbrenneman]
+ 
+ - Changed annotation to store images in a dict instead of a list.
+   [dbrenneman]
+ 
+ - Changed event handler to listen on all AT based objects instead of ATFile.
+   [dbrenneman]
+ 
+ - Added custom pdfpeek icon for configlet.
+   [dbrenneman]
+ 
+ - Added custom traverser to allow easy access to the OFS.Image.Image()
+   objects stored on IPDF objects.
+   [dbrenneman]
+
+ - Modified pdfpeek viewlet code to display images using the custom traverser.
+   [dbrenneman]
+
+ - Added custom scrollable gallery with tooltips using jQuery Tools to the
+   pdfpeek viewlet for display.
+   [dbrenneman]
+
+0.4 (2009-10-01)
+-----------------
+
+ - Refactored storage to use OFS.Image.Image() objects instead of storing the
+   raw binary data in string format.
+   [dbrenneman]
+
+ - Refactored event handler object variable name.
+   [dbrenneman]
+ 
+ - Removed unneeded files from default GS Ext. profile.
+   [dbrenneman]
+ 
+ - Removed unneeded javascript files and associated images and css.
+   [dbrenneman]
+
+0.3 - 2009-08-03
+----------------
+
+- fixed parsing of pdf files with multiple pages
+  [piv]
+
+0.1 - Unreleased
+----------------
+
+- Initial release
