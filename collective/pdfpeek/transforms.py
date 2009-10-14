@@ -71,7 +71,7 @@ class convertPDFToPNG(object):
             print "Warning: ghostscript process did not exit cleanly! Error Code: %d" % (return_code)
             raise Exception
 
-    def generate_thumbnails(self, pdf_file):
+    def generate_thumbnails(self, pdf_file_data_string):
         document_page_count = 0
         page_number = 0
         images = None
@@ -80,9 +80,9 @@ class convertPDFToPNG(object):
         """
         # if we've got a pdf file,
         # get the pdf file as a file object containing the data in a string
-        pdf_file_data_string = StringIO.StringIO(pdf_file.getFile().data)
+        pdf_file_object = StringIO.StringIO(pdf_file_data_string)
         # create a pyPdf object from the pdf file data
-        pdf = pyPdf.PdfFileReader(pdf_file_data_string)
+        pdf = pyPdf.PdfFileReader(pdf_file_object)
         # get the number of pages in the pdf file from the pyPdf object
         document_page_count = pdf.getNumPages()
         print "Found a PDF file with %d pages." % (document_page_count)
@@ -106,7 +106,7 @@ class convertPDFToPNG(object):
                 raw_image_thumb = StringIO.StringIO('')
                 # run ghostscript, convert pdf page into image
                 raw_image = self.ghostscript_transform(
-                                pdf_file_data_string, page_number)
+                                pdf_file_object, page_number)
                 # use PIL to generate thumbnail from jpeg
                 img_thumb = Image.open(StringIO.StringIO(raw_image))
                 img_thumb.thumbnail(thumb_size, Image.ANTIALIAS)

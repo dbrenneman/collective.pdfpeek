@@ -29,8 +29,9 @@ def pdf_changed(content, event):
     if content.getContentType() == 'application/pdf':
         """Mark the object with the IPDF marker interface."""
         alsoProvides(content, IPDF)
+        pdf_file_data_string = content.getFile().data
         image_converter = convertPDFToPNG()
-        images = image_converter.generate_thumbnails(content)
+        images = image_converter.generate_thumbnails(pdf_file_data_string)
         alsoProvides(content, IAttributeAnnotatable)
         annotations = IAnnotations(content)
         annotations['pdfpeek'] = {}
