@@ -22,21 +22,36 @@ from collective.pdfpeek.interfaces import IPDF
 class PdfImageAnnotationView(BrowserView):
     """view class used to access the image thumbnails that pdfpeek annotates on ATFile objects.
     """
-    
+
     @property
     def num_pages(self):
         context = aq_inner(self.context)
         annotations = dict(context.__annotations__)
         num_pages = range(len(annotations['pdfpeek']['image_thumbnails']) / 2)
         return num_pages
-    
+
 
 class IsPdfView(BrowserView):
     """check to see if the object is a PDF
     """
-    @property    
+
+    @property
     def is_pdf(self):
         if IPDF.providedBy(self.context):
+            return True
+        return False
+
+
+class IsPreviewOnView(BrowserView):
+    """
+    check to see if the image previews are on.
+    """
+
+    @property
+    def previews_on(self):
+        portal = getSite()
+        config = getUtility(IPDFPeekConfiguration, name='pdfpeek_config', context=portal)
+        if config.preview_toggle == True:
             return True
         return False
 
@@ -51,10 +66,10 @@ class PDFPeekControlPanel(ControlPanelForm):
 
 class PDFPeekConfiguration(SimpleItem):
     implements(IPDFPeekConfiguration)
-    contact_email = FieldProperty(IPDFPeekConfiguration['contact_email'])
-
+    preview_toggle = FieldProperty(IPDFPeekConfiguration['preview_toggle'])
+    preview_size = FieldProperty(IPDFPeekConfiguration['preview_size'])
+    thumbnail_size = FieldProperty(IPDFPeekConfiguration['thumbnail_size'])
 
 def form_adapter(context):
     portal = getSite()
     return getUtility(IPDFPeekConfiguration, name='pdfpeek_config', context=portal)
-

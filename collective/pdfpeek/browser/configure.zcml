@@ -53,6 +53,13 @@
         permission="zope2.View"
         />
 
+    <browser:page
+        for="*"
+        name="check-preview"
+        class=".pdf.IsPreviewOnView"
+        permission="zope2.View"
+        />
+
     <!-- A custom viewlet for PDFs only -->
     <browser:viewlet
        name="pdfpeek.content"

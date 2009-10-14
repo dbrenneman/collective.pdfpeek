@@ -18,12 +18,14 @@ from zope.annotation.interfaces import IAnnotations, IAttributeAnnotatable
 from collective.pdfpeek.transforms import convertPDFToPNG
 from collective.pdfpeek.interfaces import IPDF
 
+
 def pdf_changed(content, event):
     """
     This event handler is fired when ATFile objects are initialized or edited
     and calls the appropriate functions to convert the pdf to png thumbnails
     and store the list of thumbnails annotated on the file object.
     """
+
     if content.getContentType() == 'application/pdf':
         """Mark the object with the IPDF marker interface."""
         alsoProvides(content, IPDF)
@@ -35,13 +37,12 @@ def pdf_changed(content, event):
         annotations['pdfpeek']['image_thumbnails'] = images
     else:
         # a file was uploaded that is not a PDF
-
         # remove the marker interface
         noLongerProvides(content, IPDF)
-        
         # remove the annotated images
         IAnnotations(content)
         annotations = IAnnotations(content)
         if 'pdfpeek' in annotations:
             del annotations['pdfpeek']
+
     return None

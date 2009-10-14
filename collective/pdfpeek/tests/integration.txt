@@ -75,12 +75,6 @@ the pdf stored on the ATFile object to one PNG per page:
 
     >>> from collective.pdfpeek.transforms import convertPDFToPNG
     >>> converter = convertPDFToPNG()
-
-The converter should not work on this file that has no pdf content:
-    
-    >>> converter.generate_thumbnails(self.portal.test_pdf_2)
-    Not a PDF file.
-    Error: 0 pages in PDF file.
     
 Now try the converter with the good data, it should work:
     

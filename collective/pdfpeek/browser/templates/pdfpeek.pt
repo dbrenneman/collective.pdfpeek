@@ -1,3 +1,4 @@
+<div tal:condition="context/check-preview/previews_on | nothing">
 <!-- thumbnail scrollable -->
 <div class="navi prevPage"></div>
 
@@ -118,4 +119,4 @@ jq(function() {
 
 });
 </script>
-
+</div>

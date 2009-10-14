@@ -28,9 +28,9 @@ class convertPDFToPNG(object):
     """
     utility for converting each page of a pdf file to an image file
     returns a list of images, one per page of the pdf file
-    """    
+    """
     implements(IConvertPDFToPNG)
-    
+
     def ghostscript_transform(self, pdf_file_data_string, page_num):
         """
         ghostscript_transform takes an AT based object with an IPDF interface
@@ -56,11 +56,10 @@ class convertPDFToPNG(object):
             "-sOutputFile=%stdout",
             "-",
             ]
-        
+
         jpeg = None
         """run the ghostscript command on the pdf file,
         capture the output png file of the specified page number"""
-
         gs_process = subprocess.Popen(gs_cmd,stdout=subprocess.PIPE,stdin=subprocess.PIPE,)
         gs_process.stdin.write(pdf_file_data_string.getvalue())
         jpeg = gs_process.communicate()[0]
@@ -71,7 +70,7 @@ class convertPDFToPNG(object):
         else:
             print "Warning: ghostscript process did not exit cleanly! Error Code: %d" % (return_code)
             raise Exception
-    
+
     def generate_thumbnails(self, pdf_file):
         document_page_count = 0
         page_number = 0
@@ -79,20 +78,15 @@ class convertPDFToPNG(object):
         """If the file is a pdf file then we look inside with PyPDF and see
         how many pages there are.
         """
-        if pdf_file.getContentType() == 'application/pdf':
-            # if we've got a pdf file,
-            # get the pdf file as a file object containing the data in a string
-            pdf_file_data_string = StringIO.StringIO(pdf_file.getFile().get_data())
-            # create a pyPdf object from the pdf file data
-            pdf = pyPdf.PdfFileReader(pdf_file_data_string)
-            # get the number of pages in the pdf file from the pyPdf object
-            document_page_count = pdf.getNumPages()
-            print "Found a PDF file with %d pages." % (document_page_count)
-        else:
-            print "Not a PDF file."
-        
+        # if we've got a pdf file,
+        # get the pdf file as a file object containing the data in a string
+        pdf_file_data_string = StringIO.StringIO(pdf_file.getFile().get_data())
+        # create a pyPdf object from the pdf file data
+        pdf = pyPdf.PdfFileReader(pdf_file_data_string)
+        # get the number of pages in the pdf file from the pyPdf object
+        document_page_count = pdf.getNumPages()
+        print "Found a PDF file with %d pages." % (document_page_count)
         images = None
-
         if document_page_count > 0:
             # if we're dealing with a pdf file,
             # set the thumbnail size
@@ -124,7 +118,6 @@ class convertPDFToPNG(object):
                 # add the objects to the images dict
                 images[image_id] = image_full_object
                 images[image_thumb_id] = image_thumb_object
-                
                 print "Thumbnail generated."
         else:
             print "Error: %d pages in PDF file." % (document_page_count)

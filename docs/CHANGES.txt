@@ -1,8 +1,23 @@
 Changelog
 =========
 
+0.7 (2009-10-13)
+----------------
+
+ - Streamlined transform code.
+   [dbrenneman]
+
+ - Added ability to toggle the pdfpeek viewlet display on and off via configlet.
+   [dbrenneman]
+
+0.6 (2009-10-05)
+----------------
+
+ - Bugfix release.
+   [dbrenneman]
+
 0.5 (2009-10-05)
------------------
+----------------
 
  - Added control panel configlet.
    [dbrenneman]
@@ -37,7 +52,7 @@ Changelog
    [dbrenneman]
 
 0.4 (2009-10-01)
------------------
+----------------
 
  - Refactored storage to use OFS.Image.Image() objects instead of storing the
    raw binary data in string format.
