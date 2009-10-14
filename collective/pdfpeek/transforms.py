@@ -80,7 +80,7 @@ class convertPDFToPNG(object):
         """
         # if we've got a pdf file,
         # get the pdf file as a file object containing the data in a string
-        pdf_file_data_string = StringIO.StringIO(pdf_file.getFile().get_data())
+        pdf_file_data_string = StringIO.StringIO(pdf_file.getFile().data)
         # create a pyPdf object from the pdf file data
         pdf = pyPdf.PdfFileReader(pdf_file_data_string)
         # get the number of pages in the pdf file from the pyPdf object
