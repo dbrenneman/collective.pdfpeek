@@ -71,6 +71,15 @@ class convertPDFToPNG(object):
             print "Warning: ghostscript process did not exit cleanly! Error Code: %d" % (return_code)
             raise Exception
 
+    #check if the pdf is corrupted, and try to fix it...
+    def fixPdf(pdfFile):
+        try:
+            fileOpen = file(pdfFile, "a")
+            pdfFile.write("%%EOF")
+            return "Fixed"
+        except Exception, e:
+            return "Unable to open file: %s with error: %s" % (pdfFile, str(e))
+
     def generate_thumbnails(self, pdf_file_data_string):
         document_page_count = 0
         page_number = 0
@@ -82,43 +91,53 @@ class convertPDFToPNG(object):
         # get the pdf file as a file object containing the data in a string
         pdf_file_object = StringIO.StringIO(pdf_file_data_string)
         # create a pyPdf object from the pdf file data
-        pdf = pyPdf.PdfFileReader(pdf_file_object)
-        # get the number of pages in the pdf file from the pyPdf object
-        document_page_count = pdf.getNumPages()
-        print "Found a PDF file with %d pages." % (document_page_count)
-        images = None
-        if document_page_count > 0:
-            # if we're dealing with a pdf file,
-            # set the thumbnail size
-            thumb_size = 128, 128
-            # set up the images dict
-            images = {}
-            for page in range(document_page_count):
-                # for each page in the pdf file,
-                # set up a human readable page number counter starting at 1
-                page_number = page + 1
-                # set up the image object ids and titles
-                image_id = "%d_preview" % page_number
-                image_title = "Page %d Preview" % page_number
-                image_thumb_id = "%d_thumb" % page_number
-                image_thumb_title = "Page %d Thumbnail" % page_number
-                # create a file object to store the thumbnail in
-                raw_image_thumb = StringIO.StringIO('')
-                # run ghostscript, convert pdf page into image
-                raw_image = self.ghostscript_transform(
-                                pdf_file_object, page_number)
-                # use PIL to generate thumbnail from jpeg
-                img_thumb = Image.open(StringIO.StringIO(raw_image))
-                img_thumb.thumbnail(thumb_size, Image.ANTIALIAS)
-                # save the resulting thumbnail in the file object
-                img_thumb.save(raw_image_thumb, "JPEG")
-                # create the OFS.Image objects
-                image_full_object = OFSImage(image_id, image_title, raw_image)
-                image_thumb_object = OFSImage(image_thumb_id, image_thumb_title, raw_image_thumb)
-                # add the objects to the images dict
-                images[image_id] = image_full_object
-                images[image_thumb_id] = image_thumb_object
-                print "Thumbnail generated."
-        else:
-            print "Error: %d pages in PDF file." % (document_page_count)
+        try:
+            pdf = pyPdf.PdfFileReader(pdf_file_object)
+        except:
+            print 'error in opeing pdf file, try to fix it'
+            print self.fixPdf(pdf_file_object)
+            #try to reopen the pdf file again
+            try:
+                pdf = pyPdf.PdfFileReader(pdf_file_object)
+            except:
+                print 'this pdf file cannot be fixed'
+        if pdf:
+            # get the number of pages in the pdf file from the pyPdf object
+            document_page_count = pdf.getNumPages()
+            print "Found a PDF file with %d pages." % (document_page_count)
+            images = None
+            if document_page_count > 0:
+                # if we're dealing with a pdf file,
+                # set the thumbnail size
+                thumb_size = 128, 128
+                # set up the images dict
+                images = {}
+                for page in range(document_page_count):
+                    # for each page in the pdf file,
+                    # set up a human readable page number counter starting at 1
+                    page_number = page + 1
+                    # set up the image object ids and titles
+                    image_id = "%d_preview" % page_number
+                    image_title = "Page %d Preview" % page_number
+                    image_thumb_id = "%d_thumb" % page_number
+                    image_thumb_title = "Page %d Thumbnail" % page_number
+                    # create a file object to store the thumbnail in
+                    raw_image_thumb = StringIO.StringIO('')
+                    # run ghostscript, convert pdf page into image
+                    raw_image = self.ghostscript_transform(
+                                                pdf_file_object, page_number)
+                    # use PIL to generate thumbnail from jpeg
+                    img_thumb = Image.open(StringIO.StringIO(raw_image))
+                    img_thumb.thumbnail(thumb_size, Image.ANTIALIAS)
+                    # save the resulting thumbnail in the file object
+                    img_thumb.save(raw_image_thumb, "JPEG")
+                    # create the OFS.Image objects
+                    image_full_object = OFSImage(image_id, image_title, raw_image)
+                    image_thumb_object = OFSImage(image_thumb_id, image_thumb_title, raw_image_thumb)
+                    # add the objects to the images dict
+                    images[image_id] = image_full_object
+                    images[image_thumb_id] = image_thumb_object
+                    print "Thumbnail generated."
+            else:
+                print "Error: %d pages in PDF file." % (document_page_count)
         return images
