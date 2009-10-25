@@ -74,7 +74,6 @@ class convertPDFToPNG(object):
     #check if the pdf is corrupted, and try to fix it...
     def fixPdf(self, pdfFile):
         try:
-            fileOpen = file(pdfFile, "a")
             pdfFile.write("%%EOF")
             return "Fixed"
         except Exception, e:
@@ -84,6 +83,7 @@ class convertPDFToPNG(object):
         document_page_count = 0
         page_number = 0
         images = None
+        pdf = None
         """If the file is a pdf file then we look inside with PyPDF and see
         how many pages there are.
         """
