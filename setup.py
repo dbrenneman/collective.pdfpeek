@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 
-version = '0.9'
+version = '0.11'
 
 setup(name='collective.pdfpeek',
       version=version,

@@ -72,7 +72,7 @@ class convertPDFToPNG(object):
             raise Exception
 
     #check if the pdf is corrupted, and try to fix it...
-    def fixPdf(pdfFile):
+    def fixPdf(self, pdfFile):
         try:
             fileOpen = file(pdfFile, "a")
             pdfFile.write("%%EOF")
