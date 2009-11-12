@@ -1,6 +1,18 @@
 Changelog
 =========
 
+0.13 (2009-11-12)
+---------------
+
+ - Refactored transform code to deal with encrypted pdf files better.
+   [dbrenneman]
+
+ - Made transform code more robust.
+   [dbrenneman]
+
+ - Added ability to toggle default event handler on and off.
+   [dbrenneman]
+
 0.12 (2009-10-25)
 ---------------
 

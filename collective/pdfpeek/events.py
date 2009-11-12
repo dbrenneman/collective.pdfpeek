@@ -12,11 +12,14 @@ PDFpeek Event Handlers
 __author__ = """David Brenneman <db@davidbrenneman.com>"""
 __docformat__ = 'plaintext'
 
+from zope.component import getUtility
+from zope.app.component.hooks import getSite
 from zope.interface import alsoProvides, noLongerProvides
 from zope.annotation.interfaces import IAnnotations, IAttributeAnnotatable
 
 from collective.pdfpeek.transforms import convertPDFToPNG
 from collective.pdfpeek.interfaces import IPDF
+from collective.pdfpeek.interfaces import IPDFPeekConfiguration
 
 
 def pdf_changed(content, event):
@@ -25,25 +28,28 @@ def pdf_changed(content, event):
     and calls the appropriate functions to convert the pdf to png thumbnails
     and store the list of thumbnails annotated on the file object.
     """
-
-    if content.getContentType() == 'application/pdf':
-        """Mark the object with the IPDF marker interface."""
-        alsoProvides(content, IPDF)
-        pdf_file_data_string = content.getFile().data
-        image_converter = convertPDFToPNG()
-        images = image_converter.generate_thumbnails(pdf_file_data_string)
-        alsoProvides(content, IAttributeAnnotatable)
-        annotations = IAnnotations(content)
-        annotations['pdfpeek'] = {}
-        annotations['pdfpeek']['image_thumbnails'] = images
-    else:
-        # a file was uploaded that is not a PDF
-        # remove the marker interface
-        noLongerProvides(content, IPDF)
-        # remove the annotated images
-        IAnnotations(content)
-        annotations = IAnnotations(content)
-        if 'pdfpeek' in annotations:
-            del annotations['pdfpeek']
+    # get the pdfpeek configuration
+    portal = getSite()
+    config = getUtility(IPDFPeekConfiguration, name='pdfpeek_config', context=portal)
+    if config.eventhandler_toggle == True:
+        if content.getContentType() == 'application/pdf':
+            """Mark the object with the IPDF marker interface."""
+            alsoProvides(content, IPDF)
+            pdf_file_data_string = content.getFile().data
+            image_converter = convertPDFToPNG()
+            images = image_converter.generate_thumbnails(pdf_file_data_string)
+            alsoProvides(content, IAttributeAnnotatable)
+            annotations = IAnnotations(content)
+            annotations['pdfpeek'] = {}
+            annotations['pdfpeek']['image_thumbnails'] = images
+        else:
+            # a file was uploaded that is not a PDF
+            # remove the marker interface
+            noLongerProvides(content, IPDF)
+            # remove the annotated images
+            IAnnotations(content)
+            annotations = IAnnotations(content)
+            if 'pdfpeek' in annotations:
+                del annotations['pdfpeek']
 
     return None

@@ -35,14 +35,20 @@ class IPDFPeekConfiguration(Interface):
                                  required=True,
                                  default=True)
 
-    preview_size = schema.Text(title=_(u'Preview Size'),
+    eventhandler_toggle = schema.Bool(title=_(u'Event Handler Toggle'),
                                  description=_(
-        u'Control PDFPeek Image Preview Size.'),
-                                 required=False,
-                                 default=u'')
+        u'Enable the default PDFPeek event handler.'),
+                                 required=True,
+                                 default=True)
 
-    thumbnail_size = schema.Text(title=_(u'Thumbnail Size'),
-                                 description=_(
-        u'Control PDFPeek Image Thumbnail Size.'),
-                                 required=False,
-                                 default=u'')
+#     preview_size = schema.Text(title=_(u'Preview Size'),
+#                                  description=_(
+#         u'Control PDFPeek Image Preview Size.'),
+#                                  required=False,
+#                                  default=u'')
+
+#     thumbnail_size = schema.Text(title=_(u'Thumbnail Size'),
+#                                  description=_(
+#         u'Control PDFPeek Image Thumbnail Size.'),
+#                                  required=False,
+#                                  default=u'')

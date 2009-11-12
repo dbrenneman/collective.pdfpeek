@@ -27,7 +27,11 @@ class PdfImageAnnotationView(BrowserView):
     def num_pages(self):
         context = aq_inner(self.context)
         annotations = dict(context.__annotations__)
-        num_pages = range(len(annotations['pdfpeek']['image_thumbnails']) / 2)
+        if annotations['pdfpeek']['image_thumbnails']:
+            annotations_len = len(annotations['pdfpeek']['image_thumbnails'])
+            num_pages = range(annotations_len / 2)
+        else:
+            num_pages = 0
         return num_pages
 
 
@@ -51,6 +55,7 @@ class IsPreviewOnView(BrowserView):
     def previews_on(self):
         portal = getSite()
         config = getUtility(IPDFPeekConfiguration, name='pdfpeek_config', context=portal)
+
         if config.preview_toggle == True:
             return True
         return False
@@ -67,8 +72,9 @@ class PDFPeekControlPanel(ControlPanelForm):
 class PDFPeekConfiguration(SimpleItem):
     implements(IPDFPeekConfiguration)
     preview_toggle = FieldProperty(IPDFPeekConfiguration['preview_toggle'])
-    preview_size = FieldProperty(IPDFPeekConfiguration['preview_size'])
-    thumbnail_size = FieldProperty(IPDFPeekConfiguration['thumbnail_size'])
+    eventhandler_toggle = FieldProperty(IPDFPeekConfiguration['eventhandler_toggle'])
+#   preview_size = FieldProperty(IPDFPeekConfiguration['preview_size'])
+#   thumbnail_size = FieldProperty(IPDFPeekConfiguration['thumbnail_size'])
 
 def form_adapter(context):
     portal = getSite()

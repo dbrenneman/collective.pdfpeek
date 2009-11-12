@@ -31,7 +31,7 @@ class convertPDFToPNG(object):
     """
     implements(IConvertPDFToPNG)
 
-    def ghostscript_transform(self, pdf_file_data_string, page_num):
+    def ghostscript_transform(self, pdf, page_num):
         """
         ghostscript_transform takes an AT based object with an IPDF interface
         and a page number argument and converts that page number of the pdf
@@ -61,7 +61,7 @@ class convertPDFToPNG(object):
         """run the ghostscript command on the pdf file,
         capture the output png file of the specified page number"""
         gs_process = subprocess.Popen(gs_cmd,stdout=subprocess.PIPE,stdin=subprocess.PIPE,)
-        gs_process.stdin.write(pdf_file_data_string.getvalue())
+        gs_process.stdin.write(pdf)
         jpeg = gs_process.communicate()[0]
         gs_process.stdin.close()
         return_code = gs_process.returncode
@@ -72,10 +72,10 @@ class convertPDFToPNG(object):
             raise Exception
 
     #check if the pdf is corrupted, and try to fix it...
-    def fixPdf(self, pdfFile):
+    def fixPdf(self, string):
         try:
-            pdfFile.write("%%EOF")
-            return "Fixed"
+            result = string + "\n%%EOF\n"
+            return result
         except Exception, e:
             return "Unable to open file: %s with error: %s" % (pdfFile, str(e))
 
@@ -84,34 +84,43 @@ class convertPDFToPNG(object):
         page_number = 0
         images = None
         pdf = None
+        pdf_file_data_string = str(pdf_file_data_string)
         """If the file is a pdf file then we look inside with PyPDF and see
         how many pages there are.
         """
         # if we've got a pdf file,
         # get the pdf file as a file object containing the data in a string
-        pdf_file_object = StringIO.StringIO(pdf_file_data_string)
+        # pdf_file_object = StringIO.StringIO(pdf_file_data_string)
         # create a pyPdf object from the pdf file data
         try:
-            pdf = pyPdf.PdfFileReader(pdf_file_object)
+            pdf = pyPdf.PdfFileReader(StringIO.StringIO(pdf_file_data_string))
         except:
-            print 'error in opeing pdf file, try to fix it'
-            print self.fixPdf(pdf_file_object)
+            print 'error opening pdf file, trying to fix it...'
+            fixed_pdf_string = self.fixPdf(pdf_file_data_string)
             #try to reopen the pdf file again
             try:
-                pdf = pyPdf.PdfFileReader(pdf_file_object)
+                pdf = pyPdf.PdfFileReader(StringIO.StringIO(fixed_pdf_string))
             except:
                 print 'this pdf file cannot be fixed'
+        if pdf and pdf.isEncrypted:
+            try:
+                decrypt = pdf.decrypt('')
+                if decrypt == 0:
+                    print "\nThis pdf is password protected.\n"
+            except:
+                print "\nErrors have been found while trying to decrypt the pdf.\n"
+
         if pdf:
             # get the number of pages in the pdf file from the pyPdf object
             document_page_count = pdf.getNumPages()
             print "Found a PDF file with %d pages." % (document_page_count)
-            images = None
             if document_page_count > 0:
                 # if we're dealing with a pdf file,
                 # set the thumbnail size
                 thumb_size = 128, 128
                 # set up the images dict
                 images = {}
+
                 for page in range(document_page_count):
                     # for each page in the pdf file,
                     # set up a human readable page number counter starting at 1
@@ -125,7 +134,7 @@ class convertPDFToPNG(object):
                     raw_image_thumb = StringIO.StringIO('')
                     # run ghostscript, convert pdf page into image
                     raw_image = self.ghostscript_transform(
-                                                pdf_file_object, page_number)
+                        pdf_file_data_string, page_number)
                     # use PIL to generate thumbnail from jpeg
                     img_thumb = Image.open(StringIO.StringIO(raw_image))
                     img_thumb.thumbnail(thumb_size, Image.ANTIALIAS)
@@ -139,5 +148,5 @@ class convertPDFToPNG(object):
                     images[image_thumb_id] = image_thumb_object
                     print "Thumbnail generated."
             else:
-                print "Error: %d pages in PDF file." % (document_page_count)
+                    print "Error: %d pages in PDF file." % (document_page_count)
         return images
