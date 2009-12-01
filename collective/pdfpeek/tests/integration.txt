@@ -79,8 +79,6 @@ the pdf stored on the ATFile object to one PNG per page:
 Now try the converter with the good data, it should work:
     
     >>> images = converter.generate_thumbnails(self.portal.test_pdf)
-    Found a PDF file with 1 pages.
-    Thumbnail generated.
     
 And store the list of jpegs on the ATFile object as an annotation.
 
@@ -123,8 +121,6 @@ the event and fire the transform, annotating the results on the ATFile object:
     >>> import zope.component.event
     >>> from Products.Archetypes.event import ObjectEditedEvent
     >>> notify(ObjectEditedEvent(self.portal.test_pdf_3))
-    Found a PDF file with 1 pages.
-    Thumbnail generated.
 
 Now we should have the annotation on the object because the event handler fired:
 
