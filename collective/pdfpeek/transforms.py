@@ -12,6 +12,7 @@ PDF to Image Converter Class
 __author__ = """David Brenneman <db@davidbrenneman.com>"""
 __docformat__ = 'plaintext'
 
+import logging
 import subprocess
 import StringIO
 
@@ -22,6 +23,8 @@ from zope.interface import implements
 from OFS.Image import Image as OFSImage
 
 from collective.pdfpeek.interfaces import IConvertPDFToPNG
+
+logger = logging.getLogger('collective.pdfpeek')
 
 
 class convertPDFToPNG(object):
@@ -66,10 +69,10 @@ class convertPDFToPNG(object):
         gs_process.stdin.close()
         return_code = gs_process.returncode
         if return_code == 0:
-            return jpeg
+            logger.info("Ghostscript processed one page of a pdf file.")
         else:
-            print "Warning: ghostscript process did not exit cleanly! Error Code: %d" % (return_code)
-            raise Exception
+            logger.warn("Ghostscript process did not exit cleanly! Error Code: %d" % (return_code))
+        return jpeg
 
     #check if the pdf is corrupted, and try to fix it...
     def fixPdf(self, string):
@@ -77,7 +80,8 @@ class convertPDFToPNG(object):
             result = string + "\n%%EOF\n"
             return result
         except Exception, e:
-            return "Unable to open file: %s with error: %s" % (pdfFile, str(e))
+            logger.error("Unable to fix pdf file.")
+            return string
 
     def generate_thumbnails(self, pdf_file_data_string):
         document_page_count = 0
@@ -95,25 +99,26 @@ class convertPDFToPNG(object):
         try:
             pdf = pyPdf.PdfFileReader(StringIO.StringIO(pdf_file_data_string))
         except:
-            print 'error opening pdf file, trying to fix it...'
+            logger.warn("error opening pdf file, trying to fix it...")
             fixed_pdf_string = self.fixPdf(pdf_file_data_string)
             #try to reopen the pdf file again
             try:
                 pdf = pyPdf.PdfFileReader(StringIO.StringIO(fixed_pdf_string))
             except:
-                print 'this pdf file cannot be fixed'
-        if pdf and pdf.isEncrypted:
+                logger.warn("this pdf file cannot be fixed.")
+
+        if pdf.isEncrypted:
             try:
                 decrypt = pdf.decrypt('')
                 if decrypt == 0:
-                    print "\nThis pdf is password protected.\n"
+                    logger.warn("This pdf is password protected.")
             except:
-                print "\nErrors have been found while trying to decrypt the pdf.\n"
+                logger.warn("Errors have been found while attempting to decrypt the pdf file.")
 
         if pdf:
             # get the number of pages in the pdf file from the pyPdf object
             document_page_count = pdf.getNumPages()
-            print "Found a PDF file with %d pages." % (document_page_count)
+            logger.info("Found a PDF file with %d pages." % (document_page_count))
             if document_page_count > 0:
                 # if we're dealing with a pdf file,
                 # set the thumbnail size
@@ -146,7 +151,7 @@ class convertPDFToPNG(object):
                     # add the objects to the images dict
                     images[image_id] = image_full_object
                     images[image_thumb_id] = image_thumb_object
-                    print "Thumbnail generated."
+                    logger.info("Thumbnail generated.")
             else:
-                    print "Error: %d pages in PDF file." % (document_page_count)
+                    logger.error("Error: %d pages in PDF file." % (document_page_count))
         return images
