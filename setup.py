@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 
-version = '0.14'
+version = '0.15'
 
 setup(name='collective.pdfpeek',
       version=version,
@@ -29,7 +29,6 @@ setup(name='collective.pdfpeek',
           'plone.browserlayer',
           'pyPdf',
       ],
-      
       entry_points="""
       # stuff goes here
       """,

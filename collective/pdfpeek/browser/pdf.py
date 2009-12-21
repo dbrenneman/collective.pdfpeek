@@ -73,8 +73,11 @@ class PDFPeekConfiguration(SimpleItem):
     implements(IPDFPeekConfiguration)
     preview_toggle = FieldProperty(IPDFPeekConfiguration['preview_toggle'])
     eventhandler_toggle = FieldProperty(IPDFPeekConfiguration['eventhandler_toggle'])
-#   preview_size = FieldProperty(IPDFPeekConfiguration['preview_size'])
-#   thumbnail_size = FieldProperty(IPDFPeekConfiguration['thumbnail_size'])
+    # preview_length = FieldProperty(IPDFPeekConfiguration['preview_length'])
+    # preview_width = FieldProperty(IPDFPeekConfiguration['preview_width'])
+    # thumbnail_length = FieldProperty(IPDFPeekConfiguration['thumbnail_length'])
+    # thumbnail_width = FieldProperty(IPDFPeekConfiguration['thumbnail_width'])
+
 
 def form_adapter(context):
     portal = getSite()

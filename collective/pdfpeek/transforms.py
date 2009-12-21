@@ -55,7 +55,7 @@ class convertPDFToPNG(object):
             "-dNOPAUSE",
             first_page,
             last_page,
-            "-r55W56",
+            "-r59x56",
             "-sOutputFile=%stdout",
             "-",
             ]
@@ -123,6 +123,7 @@ class convertPDFToPNG(object):
                 # if we're dealing with a pdf file,
                 # set the thumbnail size
                 thumb_size = 128, 128
+                preview_size = 512, 512
                 # set up the images dict
                 images = {}
 
@@ -135,8 +136,9 @@ class convertPDFToPNG(object):
                     image_title = "Page %d Preview" % page_number
                     image_thumb_id = "%d_thumb" % page_number
                     image_thumb_title = "Page %d Thumbnail" % page_number
-                    # create a file object to store the thumbnail in
+                    # create a file object to store the thumbnail and preview in
                     raw_image_thumb = StringIO.StringIO('')
+                    raw_image_preview = StringIO.StringIO('')
                     # run ghostscript, convert pdf page into image
                     raw_image = self.ghostscript_transform(
                         pdf_file_data_string, page_number)
@@ -145,8 +147,13 @@ class convertPDFToPNG(object):
                     img_thumb.thumbnail(thumb_size, Image.ANTIALIAS)
                     # save the resulting thumbnail in the file object
                     img_thumb.save(raw_image_thumb, "JPEG")
+                    # use PIL to generate preview from jpeg
+                    img_preview = Image.open(StringIO.StringIO(raw_image))
+                    img_preview.thumbnail(preview_size, Image.ANTIALIAS)
+                    # save the resulting thumbnail in the file object
+                    img_preview.save(raw_image_preview, "JPEG")
                     # create the OFS.Image objects
-                    image_full_object = OFSImage(image_id, image_title, raw_image)
+                    image_full_object = OFSImage(image_id, image_title, raw_image_preview)
                     image_thumb_object = OFSImage(image_thumb_id, image_thumb_title, raw_image_thumb)
                     # add the objects to the images dict
                     images[image_id] = image_full_object
