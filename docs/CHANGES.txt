@@ -1,8 +1,15 @@
 Changelog
 =========
 
+0.15 (YYYY-MM-DD)
+-----------------
+
+ - reST police! Fixing up the docs so that they might get rendered
+   correctly.
+   [clayton]
+
 0.13 (2009-11-12)
----------------
+-----------------
 
  - Refactored transform code to deal with encrypted pdf files better.
    [dbrenneman]
@@ -14,13 +21,13 @@ Changelog
    [dbrenneman]
 
 0.12 (2009-10-25)
----------------
+-----------------
 
  - Bugfix release.
    [dbrenneman]
 
 0.11 (2009-10-25)
----------------
+-----------------
 
  - Bugfix release.
    [dbrenneman]
