@@ -20,9 +20,12 @@ import pyPdf
 from PIL import Image
 
 from zope.interface import implements
+from zope.component import getUtility
+from zope.app.component.hooks import getSite
 from OFS.Image import Image as OFSImage
 
 from collective.pdfpeek.interfaces import IConvertPDFToPNG
+from collective.pdfpeek.interfaces import IPDFPeekConfiguration
 
 logger = logging.getLogger('collective.pdfpeek')
 
@@ -120,10 +123,16 @@ class convertPDFToPNG(object):
             document_page_count = pdf.getNumPages()
             logger.info("Found a PDF file with %d pages." % (document_page_count))
             if document_page_count > 0:
+                portal = getSite()
+                config = getUtility(
+                    IPDFPeekConfiguration,
+                    name='pdfpeek_config',
+                    context=portal
+                    )
                 # if we're dealing with a pdf file,
                 # set the thumbnail size
-                thumb_size = 128, 128
-                preview_size = 512, 512
+                thumb_size = (config.thumbnail_width, config.thumbnail_length)
+                preview_size = (config.preview_width, config.preview_length)
                 # set up the images dict
                 images = {}
 

@@ -4,9 +4,12 @@ Changelog
 0.15 (YYYY-MM-DD)
 -----------------
 
+ - Added configurable preview and thumbnail sizes.
+   [claytron]
+
  - reST police! Fixing up the docs so that they might get rendered
    correctly.
-   [clayton]
+   [claytron]
 
 0.13 (2009-11-12)
 -----------------

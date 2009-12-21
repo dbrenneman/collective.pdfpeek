@@ -41,26 +41,30 @@ class IPDFPeekConfiguration(Interface):
                                  required=True,
                                  default=True)
 
-    # preview_length = schema.TextLine(title=_(u'Preview Length'),
-    #                              description=_(
-    #     u'Control PDFPeek Image Preview Length.'),
-    #                              required=False,
-    #                              default=u'')
+    preview_length = schema.Int(
+        title=_(u'Preview Length'),
+        description=_(u'Control PDFPeek Image Preview Length.'),
+        required=True,
+        default=512,
+        )
 
-    # preview_width = schema.TextLine(title=_(u'Preview Width'),
-    #                              description=_(
-    #     u'Control PDFPeek Image Preview Width.'),
-    #                              required=False,
-    #                              default=u'')
+    preview_width = schema.Int(
+        title=_(u'Preview Width'),
+        description=_(u'Control PDFPeek Image Preview Width.'),
+        required=True,
+        default=512,
+        )
 
-    # thumbnail_length = schema.TextLine(title=_(u'Thumbnail Length'),
-    #                              description=_(
-    #     u'Control PDFPeek Image Thumbnail Length.'),
-    #                              required=False,
-    #                              default=u'')
+    thumbnail_length = schema.Int(
+        title=_(u'Thumbnail Length'),
+        description=_(u'Control PDFPeek Image Thumbnail Length.'),
+        required=True,
+        default=128,
+        )
 
-    # thumbnail_width = schema.TextLine(title=_(u'Thumbnail Width'),
-    #                              description=_(
-    #     u'Control PDFPeek Image Thumbnail Width.'),
-    #                              required=False,
-    #                              default=u'')
+    thumbnail_width = schema.Int(
+        title=_(u'Thumbnail Width'),
+        description=_(u'Control PDFPeek Image Thumbnail Width.'),
+        required=True,
+        default=128,
+        )

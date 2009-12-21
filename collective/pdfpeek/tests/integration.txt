@@ -24,7 +24,12 @@ create another file object we keep empty for later:
 
     >>> self.portal.invokeFactory('File', id='test_pdf_2', title='Second Test PDF File')
     'test_pdf_2'
-    
+
+create a file that will be used to test the image sizes:
+
+    >>> self.portal.invokeFactory('File', id='test_image_size', title='Image Test PDF File')
+    'test_image_size'
+
 Testing the inner-workings of the collective.pdfpeek.transforms module:
 -----------------------------------------------------------------------
 
@@ -99,7 +104,48 @@ Let's put the annotations in a dict:
     
     >>> dict(self.portal.test_pdf.__annotations__)
     {'pdfpeek': {'image_thumbnails': {'1_preview': <Image at 1_preview>, '1_thumb': <Image at 1_thumb>}}, 'Archetypes.storage.AnnotationStorage-file': <File at file>}
-    
+
+Let's set the image using our image test file:
+
+    >>> portal.test_image_size.setFile(pdf_file)
+
+Let's check the default image sizes:
+
+    >>> from zope.component import getUtility
+    >>> from collective.pdfpeek.interfaces import IPDFPeekConfiguration
+    >>> config = getUtility(IPDFPeekConfiguration, name='pdfpeek_config', context=portal)
+    >>> config.preview_width, config.preview_length
+    (512, 512)
+    >>> config.thumbnail_width, config.thumbnail_length
+    (128, 128)
+
+Let's generate some images:
+
+    >>> images = converter.generate_thumbnails(self.portal.test_image_size)
+
+The height of the preview should have been shrunk to `512`, likewise
+the thumbnail should have shrunk to `128`:
+
+    >>> images['1_preview'].height
+    512
+    >>> images['1_thumb'].height
+    128
+
+Now if we set the sizes smaller:
+
+    >>> config.preview_width = 9999
+    >>> config.preview_length = 256
+    >>> config.thumbnail_width = 9999
+    >>> config.thumbnail_length = 50
+
+Let's regenerate the images and see what sizes are set:
+
+    >>> images = converter.generate_thumbnails(self.portal.test_image_size)
+    >>> images['1_preview'].height
+    256
+    >>> images['1_thumb'].height
+    50
+
 Testing collective.pdfpeek's event handler subsystem:
 -----------------------------------------------------
 
