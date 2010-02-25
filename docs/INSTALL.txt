@@ -1,7 +1,7 @@
 collective.pdfpeek Installation
 -------------------------------
 
-To install collective.pdfpeek into the global Python environment (or a workingenv),
+To install collective.pdfpeek into the global Python environment (or a virtualenv),
 using a traditional Zope 2 instance, you can do this:
 
 * When you're reading this you have probably already run 

@@ -65,6 +65,6 @@ def remove_image_previews(content):
     annotations = IAnnotations(content)
     if 'pdfpeek' in annotations:
         del annotations['pdfpeek']
-    msg = "Removed preview annotations from %s." % content
+    msg = "Removed preview annotations from %s." % content.id
     logger.info(msg)
     return msg

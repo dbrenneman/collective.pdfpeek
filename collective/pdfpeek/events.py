@@ -35,26 +35,26 @@ def pdf_changed(content, event):
     and store the list of thumbnails annotated on the file object.
     """
     portal = getSite()
-    config = getUtility(IPDFPeekConfiguration, name='pdfpeek_config', context=portal)
-    if config.eventhandler_toggle == True:
-        if content.getContentType() == 'application/pdf':
-            """Mark the object with the IPDF marker interface."""
-            alsoProvides(content, IPDF)
-            pdf_file_data_string = content.getFile().data
-            image_converter = convertPDFToPNG()
-            images = image_converter.generate_thumbnails(pdf_file_data_string)
-            alsoProvides(content, IAttributeAnnotatable)
-            annotations = IAnnotations(content)
-            annotations['pdfpeek'] = {}
-            annotations['pdfpeek']['image_thumbnails'] = images
-        else:
-            noLongerProvides(content, IPDF)
-            IAnnotations(content)
-            annotations = IAnnotations(content)
-            if 'pdfpeek' in annotations:
-                del annotations['pdfpeek']
-
-    return None
+    if 'collective.pdfpeek' in portal.portal_quickinstaller.objectIds():
+        config = getUtility(IPDFPeekConfiguration, name='pdfpeek_config', context=portal)
+        if config.eventhandler_toggle == True:
+            if content.getContentType() == 'application/pdf':
+                """Mark the object with the IPDF marker interface."""
+                alsoProvides(content, IPDF)
+                pdf_file_data_string = content.getFile().data
+                image_converter = convertPDFToPNG()
+                images = image_converter.generate_thumbnails(pdf_file_data_string)
+                alsoProvides(content, IAttributeAnnotatable)
+                annotations = IAnnotations(content)
+                annotations['pdfpeek'] = {}
+                annotations['pdfpeek']['image_thumbnails'] = images
+            else:
+                noLongerProvides(content, IPDF)
+                IAnnotations(content)
+                annotations = IAnnotations(content)
+                if 'pdfpeek' in annotations:
+                    del annotations['pdfpeek']
+        return None
 
 
 def queue_document_conversion(content, event):
@@ -62,19 +62,21 @@ def queue_document_conversion(content, event):
     This method queues the document for conversion.
     One job is queued for the jodconverter if required, and for pdfpeek.
     """
-    ALLOWED_CONVERSION_TYPES = ['application/pdf']
-    # if we have a document in the file field, add the jobs to the queue
-    content_type = content.getFile().getContentType()
-    if (content_type in ALLOWED_CONVERSION_TYPES):
-        # get the queue
-        conversion_queue = get_queue('collective.pdfpeek.conversion')
-        # create a jodconverter job
-        converter_job = Job(convert_document_to_pdf, content)
-        # add it to the queue
-        conversion_queue.pending.append(converter_job)
-        logger.info("Document Conversion Job Queued")
-    else:
-        queue_image_removal(content)
+    portal = getSite()
+    if 'collective.pdfpeek' in portal.portal_quickinstaller.objectIds():
+        ALLOWED_CONVERSION_TYPES = ['application/pdf']
+        # if we have a document in the file field, add the jobs to the queue
+        content_type = content.getFile().getContentType()
+        if (content_type in ALLOWED_CONVERSION_TYPES):
+            # get the queue
+            conversion_queue = get_queue('collective.pdfpeek.conversion')
+            # create a jodconverter job
+            converter_job = Job(convert_document_to_pdf, content)
+            # add it to the queue
+            conversion_queue.pending.append(converter_job)
+            logger.info("Document Conversion Job Queued")
+        else:
+            queue_image_removal(content)
 
 
 def queue_image_removal(content):

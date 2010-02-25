@@ -1,13 +1,14 @@
 from setuptools import setup, find_packages
 
 
-version = '0.16'
+version = '0.17'
 
 setup(name='collective.pdfpeek',
       version=version,
       description="A Plone product that generates image thumbnail previews" +
       "of PDF files stored on ATCT based objects.",
       long_description=open("README.txt").read() + "\n" +
+                       open("docs/INSTALL.txt").read() + "\n" +
                        open("docs/CHANGES.txt").read(),
       # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[

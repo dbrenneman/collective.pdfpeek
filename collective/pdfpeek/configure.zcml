@@ -2,6 +2,7 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:five="http://namespaces.zope.org/five"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="collective.pdfpeek">
 
   <five:registerPackage package="." initialize=".initialize" />
@@ -10,7 +11,7 @@
   <include package="." file="genericsetup.zcml" />
   <include package="." file="events.zcml" />
 
-  <adapter
+  <adapter 
     factory=".traversal.PDFPeekImageScaleTraverser"
     name="images"
     />
