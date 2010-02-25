@@ -62,7 +62,7 @@ class IsPreviewOnView(BrowserView):
 
 
 class PDFPeekControlPanel(ControlPanelForm):
-    """Control panel form for setting ALM site specific properties"""
+    """Control panel form for setting pdfpeek image and thumbnail sizes"""
     form_fields = FormFields(IPDFPeekConfiguration)
     label = _(u'PDF Peek Settings')
     description = _(u'Global settings for the PDF Peek Product')

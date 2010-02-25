@@ -98,12 +98,12 @@ And store the list of jpegs on the ATFile object as an annotation.
 OK, now let's try to access the annotation on the object:
 
     >>> self.portal.test_pdf.__annotations__
-    <BTrees._OOBTree.OOBTree object at ...>
+    <BTrees.OOBTree.OOBTree object at ...>
 
 Let's put the annotations in a dict:
     
     >>> dict(self.portal.test_pdf.__annotations__)
-    {'pdfpeek': {'image_thumbnails': {'1_preview': <Image at 1_preview>, '1_thumb': <Image at 1_thumb>}}, 'Archetypes.storage.AnnotationStorage-file': <File at file>}
+    {'pdfpeek': {'image_thumbnails': {'1_preview': <Image at 1_preview>, '1_thumb': <Image at 1_thumb>}}, 'Archetypes.storage.AnnotationStorage-file': ...}
 
 Let's set the image using our image test file:
 
@@ -168,15 +168,55 @@ the event and fire the transform, annotating the results on the ATFile object:
     >>> from Products.Archetypes.event import ObjectEditedEvent
     >>> notify(ObjectEditedEvent(self.portal.test_pdf_3))
 
+OK, now we should have a conversion job in the queue:
+
+    >>> from collective.pdfpeek import async
+    >>> queue = async.get_queue('collective.pdfpeek.conversion')
+    >>> queue.pending
+    [<collective.pdfpeek.async.Job object at ...>]
+
+Let's process the queue:
+
+Now we need to visit the url that will run the method that processes the queue:
+
+    >>> from Products.Five.testbrowser import Browser
+    >>> self.setRoles(('Manager',))
+    >>> self.portal.error_log._ignored_exceptions = ()
+    >>> browser = Browser()
+    >>> portal_url = self.portal.absolute_url()
+
+Let's login as the portal manager:
+
+    >>> from Products.PloneTestCase.setup import portal_owner, default_password
+    >>> browser.open(portal_url + "/login")
+    >>> browser.getControl(name='__ac_name').value = portal_owner
+    >>> browser.getControl(name='__ac_password').value = default_password
+    >>> browser.getControl(name='submit').click()
+    >>> self.portal.error_log._ignored_exceptions = ()
+    >>> queue_process_url = portal_url + "/@@pdfpeek.utils/process_conversion_queue"
+    >>> browser.open(queue_process_url)
+    >>> "1 Jobs in queue. Processing queue..." in browser.contents
+    True
+    
+The pending queue should now be empty:
+
+    >>> queue.pending
+    []
+
+The job should have been added to the finished queue:
+
+    >>> queue.finished
+    [<collective.pdfpeek.async.Job object at ...>]
+
 Now we should have the annotation on the object because the event handler fired:
 
     >>> self.portal.test_pdf_3.__annotations__
-    <BTrees._OOBTree.OOBTree object at ...>
+    <BTrees.OOBTree.OOBTree object at ...>
 
 Ok, so we have the annotations on there, but do they contain what we expect? Let's see:
 
     >>> dict(self.portal.test_pdf_3.__annotations__)
-    {'pdfpeek': {'image_thumbnails': {'1_preview': <Image at 1_preview>, '1_thumb': <Image at 1_thumb>}}, 'Archetypes.storage.AnnotationStorage-file': <File at file>}
+    {'pdfpeek': {'image_thumbnails': {'1_preview': <Image at 1_preview>, '1_thumb': <Image at 1_thumb>}}, 'Archetypes.storage.AnnotationStorage-file': <plone.app.blob.field.BlobWrapper object at ...>, 'Archetypes.storage.AnnotationStorage-title': u'Yet Another Test PDF File'}
 
     >>> annotations = dict(self.portal.test_pdf_3.__annotations__)
     >>> image = annotations['pdfpeek']['image_thumbnails']['1_preview']
@@ -206,10 +246,43 @@ Then let's notify the subscriber / event handler that our file object has change
 
     >>> notify(ObjectEditedEvent(self.portal.test_pdf_3))
 
+OK, now we should have an image annotation removal job in the queue:
+
+    >>> queue.pending
+    [<collective.pdfpeek.async.Job object at ...>]
+
+Let's process the queue:
+
+Now we need to visit the url that will run the method that processes the queue:
+
+Let's login as the portal manager:
+
+    >>> browser.open(portal_url + "/login")
+    >>> browser.getControl(name='__ac_name').value = portal_owner
+    >>> browser.getControl(name='__ac_password').value = default_password
+    >>> browser.getControl(name='submit').click()
+    >>> self.portal.error_log._ignored_exceptions = ()
+    >>> queue_process_url = portal_url + "/@@pdfpeek.utils/process_conversion_queue"
+    >>> browser.open(queue_process_url)
+    >>> "1 Jobs in queue. Processing queue..." in browser.contents
+    True
+    
+The pending queue should now be empty:
+
+    >>> queue.pending
+    []
+
+The job should have been added to the finished queue:
+
+    >>> queue.finished
+    [<collective.pdfpeek.async.Job object at ...>]
+
+
+
 Now there shouldn't be any annotations any more:
 
     >>> dict(self.portal.test_pdf_3.__annotations__)
-    {'Archetypes.storage.AnnotationStorage-file': <File at file>}
+    {'Archetypes.storage.AnnotationStorage-file': <plone.app.blob.field.BlobWrapper object at ...>, 'Archetypes.storage.AnnotationStorage-title': u'Yet Another Test PDF File'}
 
 
 

@@ -6,12 +6,12 @@
   <subscriber 
      for="Products.ATContentTypes.interface.file.IATFile
           Products.Archetypes.interfaces.IObjectEditedEvent"
-     handler=".events.pdf_changed" />
+     handler=".events.queue_document_conversion" />
 
   <subscriber 
      for="Products.ATContentTypes.interface.file.IATFile
           Products.Archetypes.interfaces.IObjectInitializedEvent"
-     handler=".events.pdf_changed" />
+     handler=".events.queue_document_conversion" />
     
     
 </configure>

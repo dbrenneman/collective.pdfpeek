@@ -28,8 +28,15 @@ setup(name='collective.pdfpeek',
           'setuptools',
           'plone.browserlayer',
           'pyPdf',
-      ],
+          'Products.PloneTestCase',
+          'plone.mocktestcase>=1.0b3',
+          ],
+      extras_require = {
+          'test': ['Products.PloneTestCase']
+          },
       entry_points="""
-      # stuff goes here
+      [z3c.autoinclude.plugin]
+      target = plone
       """,
       )
+

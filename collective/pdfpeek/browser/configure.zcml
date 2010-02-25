@@ -70,5 +70,14 @@
        permission="zope2.View" 
        />
 
+    <browser:page
+      name="pdfpeek.utils"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      class=".utils.pdfpeekUtilView"
+      permission="cmf.ManagePortal"
+      allowed_interface='.utils.IpdfpeekUtilView'
+      />
+
+
 </configure>
 

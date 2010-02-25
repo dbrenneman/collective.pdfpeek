@@ -12,6 +12,8 @@ PDFpeek Event Handlers
 __author__ = """David Brenneman <db@davidbrenneman.com>"""
 __docformat__ = 'plaintext'
 
+import logging
+
 from zope.component import getUtility
 from zope.app.component.hooks import getSite
 from zope.interface import alsoProvides, noLongerProvides
@@ -20,6 +22,10 @@ from zope.annotation.interfaces import IAnnotations, IAttributeAnnotatable
 from collective.pdfpeek.transforms import convertPDFToPNG
 from collective.pdfpeek.interfaces import IPDF
 from collective.pdfpeek.interfaces import IPDFPeekConfiguration
+from collective.pdfpeek.async import get_queue, Job
+from collective.pdfpeek.conversion import convert_document_to_pdf, remove_image_previews 
+
+logger = logging.getLogger('collective.pdfpeek.browser.utils')
 
 
 def pdf_changed(content, event):
@@ -28,7 +34,6 @@ def pdf_changed(content, event):
     and calls the appropriate functions to convert the pdf to png thumbnails
     and store the list of thumbnails annotated on the file object.
     """
-    # get the pdfpeek configuration
     portal = getSite()
     config = getUtility(IPDFPeekConfiguration, name='pdfpeek_config', context=portal)
     if config.eventhandler_toggle == True:
@@ -43,13 +48,41 @@ def pdf_changed(content, event):
             annotations['pdfpeek'] = {}
             annotations['pdfpeek']['image_thumbnails'] = images
         else:
-            # a file was uploaded that is not a PDF
-            # remove the marker interface
             noLongerProvides(content, IPDF)
-            # remove the annotated images
             IAnnotations(content)
             annotations = IAnnotations(content)
             if 'pdfpeek' in annotations:
                 del annotations['pdfpeek']
 
     return None
+
+
+def queue_document_conversion(content, event):
+    """
+    This method queues the document for conversion.
+    One job is queued for the jodconverter if required, and for pdfpeek.
+    """
+    ALLOWED_CONVERSION_TYPES = ['application/pdf']
+    # if we have a document in the file field, add the jobs to the queue
+    content_type = content.getFile().getContentType()
+    if (content_type in ALLOWED_CONVERSION_TYPES):
+        # get the queue
+        conversion_queue = get_queue('collective.pdfpeek.conversion')
+        # create a jodconverter job
+        converter_job = Job(convert_document_to_pdf, content)
+        # add it to the queue
+        conversion_queue.pending.append(converter_job)
+        logger.info("Document Conversion Job Queued")
+    else:
+        queue_image_removal(content)
+
+
+def queue_image_removal(content):
+    """
+    Queues the image removal if there is no longer a pdf
+    file stored on the object
+    """
+    conversion_queue = get_queue('collective.pdfpeek.conversion')
+    removal_job = Job(remove_image_previews, content)
+    conversion_queue.pending.append(removal_job)
+    logger.info("Document Preview Image Removal Job Queued")
