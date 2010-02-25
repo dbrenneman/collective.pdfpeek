@@ -1,7 +1,31 @@
 Changelog
 =========
 
-0.15 (YYYY-MM-DD)
+0.17 (2010-XX-XX)
+----------------
+
+ - Added asyncronous processing queue for ghostscript transform jobs.
+   [dbrenneman]
+
+ - Updated functional doctests to work on Plone 4 with blobfile storage.
+   [dbrenneman]
+
+ - Updated functional doctests to test transform queue.
+   [dbrenneman]
+
+ - Updated documentation.
+   [dbrenneman]
+
+ - Added unit testing harness.
+   [dbrenneman]
+
+0.16 (2009-12-12)
+----------------
+
+ - Bugfix release.
+   [dbrenneman]
+
+0.15 (2009-12-12)
 -----------------
 
  - Added configurable preview and thumbnail sizes.
