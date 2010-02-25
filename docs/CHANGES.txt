@@ -2,7 +2,10 @@ Changelog
 =========
 
 0.17 (2010-XX-XX)
-----------------
+-----------------
+
+ - Updated README, including instructions for configuring the clock server.
+   [dbrenneman]
 
  - Added asyncronous processing queue for ghostscript transform jobs.
    [dbrenneman]

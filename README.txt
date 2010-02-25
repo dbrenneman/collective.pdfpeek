@@ -1,19 +1,97 @@
 Introduction
 ============
 
-A Plone product that generates image thumbnail previews of PDF files uploaded
-to Archetypes based content objects.
+PdfPeek is a Plone 4 add-on product that utilizes GNU Ghostscript to generate
+image thumbnail previews of PDF files uploaded to ATFile based content
+objects.
 
-This product, when installed in a Plone 3.x site, will automatically generate 
+This product, when installed in a Plone 4.x site, will automatically generate 
 preview and thumbnail images of each page of uploaded PDF files and store 
-them annotated onto the content object containing the pdf file.
+them annotated onto the content object containing the PDF file.
 
-Requires GNU ghostscript, PyPDF and PIL!
+Image generation from the PDF file is processed asynchronously so that the user
+does not have to wait for the images to be created in order to continue using
+the site, as the processing of large PDF files can take many minutes to complete.
 
-The image generation currently takes place on object modified events.
-I am working on an implementation with a clock server process.
-This way the user does not have to wait for the images to be generated.
+When a file object is initialized or edited, PdfPeek checks to see if a PDF file
+was uploaded. If so, a ghostscript image conversion job is added to the pdfpeek
+job queue. If the file uploaded is not of content type 'application/pdf', an
+image removal job is added to the pdfpeek job queue. This job queue is processed
+periodically by a cron job or a zope clock server process. The image conversion
+jobs add the IPDF interface to the content object and store the resulting image
+preview and thumbnail for each page of the PDF annotated on to the content
+object itself. The image removal jobs remove the image annotations and the IPDF
+interface from the content object.
 
-- Code repository: https://svn.plone.org/svn/collective/collective.pdfpeek
-- Questions and comments to db@davidbrenneman.com
-- Report bugs to db@davidbrenneman.com
+If a job fails, it is removed from the processing queue and appended to a list
+of failed jobs. If a job succeeds, it is removed from the processing queue and
+appended to a list of successfully completed jobs.
+
+PdfPeek ships with an example user interface that is turned on by default. This
+UI displays the thumbnail images of each page of the PDF file when a user views
+the content object in their browser. This example UI is not quite working yet,
+and is meant to be just that, an example. I don't claim to be a javascript
+master.
+
+A custom traverser is available to make it easy to access the images and
+previews directly, as well as to build custom views incorporating image
+previews of file content.
+
+PdfPeek ships with a configlet that allows the site administrator to adjust the
+size of the generated preview and thumbnail images, as well as toggle the
+example user interface and default event handlers on and off.
+
+**Requires the GNU ghostscript gs binary to be available on the $PATH!**
+
+*Tested on POSIX compliant systems such as LINUX and MacOS 10.6. Untested on* 
+*Windows systems.*
+*(Wouldn't be surprised if it works, as long as you can install gs.)*
+
+*As of version 0.17, Plone 3.x is no longer officially supported.*
+
+ * Code repository: https://svn.plone.org/svn/collective/collective.pdfpeek
+ * Questions and comments to db@davidbrenneman.com
+ * Report bugs to db@davidbrenneman.com
+
+
+Usage
+=====
+
+The recommended method of using collective.pdfpeek is by installing via
+buildout. 
+PdfPeek uses z3c.autoinclude to load it's zcml, so you don't need a zcml slug.
+
+Add collective.pdfpeek to the list of eggs in the instance section of your
+buildout.cfg like so::
+
+    [instance]
+    ...
+    eggs =
+        ...
+        collective.pdfpeek
+        ...
+
+For automatic processing of the PdfPeek job queue, a simple cron script using
+curl or wget would suffice. It is nice to keep all of the configuration for a
+project in your buildout, however. For this reason, a zope clock server process
+is the recommended way to automatically process the job queue. You can do so by
+adding the following snippet to your [instance] part in your buildout 
+configuration::
+
+    [instance]
+    ...
+    zope-conf-additional=
+        # process the job queue every 5 seconds
+        <clock-server>
+           method /Plone/@@pdfpeek.utils/process_conversion_queue
+           period 5
+           user admin
+           password admin
+           host localhost
+        </clock-server>
+    ...
+
+You will have to edit the above snippet to customize the name of the plone site,
+the admin username and password, and the hostname the instance is running on.
+You can also adjust the interval at which the queue is processed by the clock
+server.
