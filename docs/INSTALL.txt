@@ -93,7 +93,8 @@ Edit your crontab file and append the following line::
 
      5 * * * * wget --user=admin --password=admin http://localhost:8080/Plone/@@pdfpeek.utils/process_conversion_queue
 
+You will have to customize the above line with the hostname, port number, username, password and path to your plone instance.
+
 Save your crontab file and wget will now call the view method that triggers the
 processing of the pdf conversion queue every five minutes.
-
 
