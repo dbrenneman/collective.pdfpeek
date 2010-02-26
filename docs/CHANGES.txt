@@ -1,8 +1,18 @@
 Changelog
 =========
 
-0.17 (2010-XX-XX)
+0.17 (2010-2-26)
 -----------------
+
+ - Added wide variety of pdf files to run through the unit tests for the 
+   ghostscript image transform.
+   [dbrenneman]
+
+ - Added unit tests for low level ghostscript transform.
+   [dbrenneman]
+
+ - Refactored transform code to make class and method names make more sense.
+   [dbrenneman]
 
  - Updated README, including instructions for configuring the clock server.
    [dbrenneman]

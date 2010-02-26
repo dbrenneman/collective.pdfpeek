@@ -19,7 +19,7 @@ class IPDF(Interface):
     """Marker interface denoting a pdf document."""
 
 
-class IConvertPDFToPNG(Interface):
+class IConvertPDFToImage(Interface):
     """Marker interface identifying the pdf image thumbnail generator."""
 
 

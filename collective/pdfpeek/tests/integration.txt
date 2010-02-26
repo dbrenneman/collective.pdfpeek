@@ -5,7 +5,7 @@ This test is an integration test that uses PloneTestCase. Here, 'self' is
 the test class, so we can use 'self.folder', 'self.portal' and so on. The
 setup is done in tests/test_integration_doctests.py
 
-We first test that the low level machinery of the PDF to PNG transform works,
+We first test that the low level machinery of the PDF to image transform works,
 we then test our event handlers to see if they fire the transform.
 
 Setup:
@@ -76,10 +76,10 @@ Check that the mime type of the file with no pdf is text/plain:
     'text/plain'
 
 Now initialize an instance of the transform class which will convert
-the pdf stored on the ATFile object to one PNG per page:
+the pdf stored on the ATFile object to one image per page:
 
-    >>> from collective.pdfpeek.transforms import convertPDFToPNG
-    >>> converter = convertPDFToPNG()
+    >>> from collective.pdfpeek.transforms import convertPDFToImage
+    >>> converter = convertPDFToImage()
     
 Now try the converter with the good data, it should work:
     

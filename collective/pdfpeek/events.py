@@ -19,11 +19,11 @@ from zope.app.component.hooks import getSite
 from zope.interface import alsoProvides, noLongerProvides
 from zope.annotation.interfaces import IAnnotations, IAttributeAnnotatable
 
-from collective.pdfpeek.transforms import convertPDFToPNG
+from collective.pdfpeek.transforms import convertPDFToImage
 from collective.pdfpeek.interfaces import IPDF
 from collective.pdfpeek.interfaces import IPDFPeekConfiguration
 from collective.pdfpeek.async import get_queue, Job
-from collective.pdfpeek.conversion import convert_document_to_pdf, remove_image_previews 
+from collective.pdfpeek.conversion import convert_pdf_to_image, remove_image_previews 
 
 logger = logging.getLogger('collective.pdfpeek.browser.utils')
 
@@ -42,7 +42,7 @@ def pdf_changed(content, event):
                 """Mark the object with the IPDF marker interface."""
                 alsoProvides(content, IPDF)
                 pdf_file_data_string = content.getFile().data
-                image_converter = convertPDFToPNG()
+                image_converter = convertPDFToImage()
                 images = image_converter.generate_thumbnails(pdf_file_data_string)
                 alsoProvides(content, IAttributeAnnotatable)
                 annotations = IAnnotations(content)
@@ -71,7 +71,7 @@ def queue_document_conversion(content, event):
             # get the queue
             conversion_queue = get_queue('collective.pdfpeek.conversion')
             # create a jodconverter job
-            converter_job = Job(convert_document_to_pdf, content)
+            converter_job = Job(convert_pdf_to_image, content)
             # add it to the queue
             conversion_queue.pending.append(converter_job)
             logger.info("Document Conversion Job Queued")

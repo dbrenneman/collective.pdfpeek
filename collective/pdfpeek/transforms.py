@@ -24,18 +24,18 @@ from zope.component import getUtility
 from zope.app.component.hooks import getSite
 from OFS.Image import Image as OFSImage
 
-from collective.pdfpeek.interfaces import IConvertPDFToPNG
+from collective.pdfpeek.interfaces import IConvertPDFToImage
 from collective.pdfpeek.interfaces import IPDFPeekConfiguration
 
 logger = logging.getLogger('collective.pdfpeek')
 
 
-class convertPDFToPNG(object):
+class convertPDFToImage(object):
     """
     utility for converting each page of a pdf file to an image file
     returns a list of images, one per page of the pdf file
     """
-    implements(IConvertPDFToPNG)
+    implements(IConvertPDFToImage)
 
     def ghostscript_transform(self, pdf, page_num):
         """
@@ -75,6 +75,7 @@ class convertPDFToPNG(object):
             logger.info("Ghostscript processed one page of a pdf file.")
         else:
             logger.warn("Ghostscript process did not exit cleanly! Error Code: %d" % (return_code))
+            jpeg = None
         return jpeg
 
     #check if the pdf is corrupted, and try to fix it...

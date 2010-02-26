@@ -3,13 +3,13 @@ import logging
 from zope.interface import alsoProvides, noLongerProvides
 from zope.annotation.interfaces import IAnnotations, IAttributeAnnotatable
 
-from collective.pdfpeek.transforms import convertPDFToPNG
+from collective.pdfpeek.transforms import convertPDFToImage
 from collective.pdfpeek.interfaces import IPDF
 
 logger = logging.getLogger('collective.pdfpeek.conversion')
 
 
-def convert_document_to_pdf(content):
+def convert_pdf_to_image(content):
     """
     """
     msg = "Converting pdf file."
@@ -28,7 +28,7 @@ def convert_document_to_pdf(content):
 
 
 def run_pdfpeek(content, pdf_file_data_string):
-    image_converter = convertPDFToPNG()
+    image_converter = convertPDFToImage()
     images = None
     errmsg = "Failed to convert PDF to images with PDFPeek on %s." % content.id
     successmsg = "Converted PDF to images with PDFPeek on %s." % content.id
