@@ -1,5 +1,29 @@
-collective.pdfpeek Installation
--------------------------------
+Installation
+============
+
+Via zc.buildout
+---------------
+
+The recommended method of using collective.pdfpeek is by installing via
+zc.buildout using the plone.recipe.zope2instance recipe. 
+PdfPeek uses z3c.autoinclude to load it's zcml, so you don't need a zcml slug.
+
+Add collective.pdfpeek to the list of eggs in the instance section of your
+buildout.cfg like so::
+
+    [instance]
+    ...
+    eggs =
+        ...
+        collective.pdfpeek
+        ...
+
+Then re-run your buildout like so to activate the installation::
+
+   $ bin/buildout
+
+Via setuptools
+--------------
 
 To install collective.pdfpeek into the global Python environment (or a virtualenv),
 using a traditional Zope 2 instance, you can do this:
@@ -25,21 +49,51 @@ into your Zope instance.
 .. _pythonproducts: http://plone.org/products/pythonproducts
 
 
-Alternatively, if you are using zc.buildout and the plone.recipe.zope2instance
-recipe to manage your project, you can do this:
+Configuration
+=============
 
-* Add ``collective.pdfpeek`` to the list of eggs to install, e.g.::
+Via zc.buildout
+---------------
 
-    [buildout]
+For automatic processing of the PdfPeek job queue, a simple cron script using
+curl or wget would suffice. It is nice to keep all of the configuration for a
+project in your buildout, however. For this reason, a zope clock server process
+is the recommended way to automatically process the job queue. You can do so by
+adding the following snippet to your [instance] part in your buildout 
+configuration::
+
+    [instance]
     ...
-    eggs =
-        ...
-        collective.pdfpeek
-       
-      
-* Re-run buildout, e.g. with::
+    zope-conf-additional=
+        # process the job queue every 5 seconds
+        <clock-server>
+           method /Plone/@@pdfpeek.utils/process_conversion_queue
+           period 5
+           user admin
+           password admin
+           host localhost
+        </clock-server>
+    ...
 
-    $ ./bin/buildout
-        
-You can skip the ZCML slug if you are going to explicitly include the package
-from another package's configure.zcml file.
+You will have to edit the above snippet to customize the name of the plone site,
+the admin username and password, and the hostname the instance is running on.
+You can also adjust the interval at which the queue is processed by the clock
+server.
+
+Then re-run your buildout like so to activate the clock server::
+
+   $ bin/buildout
+
+Via cron
+--------
+
+Install ``wget``. \
+
+Edit your crontab file and append the following line::
+
+     5 * * * * wget --user=admin --password=admin http://localhost:8080/Plone/@@pdfpeek.utils/process_conversion_queue
+
+Save your crontab file and wget will now call the view method that triggers the
+processing of the pdf conversion queue every five minutes.
+
+
