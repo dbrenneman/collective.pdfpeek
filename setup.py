@@ -5,7 +5,7 @@ version = '0.18'
 
 setup(name='collective.pdfpeek',
       version=version,
-      description="A Plone product that generates image thumbnail previews" +
+      description="A Plone 4 product that generates image thumbnail previews" +
       " of PDF files stored on ATFile based objects.",
       long_description=open("README.txt").read() + "\n" +
                        open("docs/INSTALL.txt").read() + "\n" +
