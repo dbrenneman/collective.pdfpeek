@@ -1,6 +1,12 @@
 Changelog
 =========
 
+0.18 (2010-2-26)
+----------------
+
+ - Fixed bug in reST rendering of changelog.
+   [dbrenneman]
+
 0.17 (2010-2-26)
 -----------------
 
@@ -33,7 +39,7 @@ Changelog
    [dbrenneman]
 
 0.16 (2009-12-12)
-----------------
+-----------------
 
  - Bugfix release.
    [dbrenneman]

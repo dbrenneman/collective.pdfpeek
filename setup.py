@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 
-version = '0.17'
+version = '0.18'
 
 setup(name='collective.pdfpeek',
       version=version,
@@ -10,7 +10,6 @@ setup(name='collective.pdfpeek',
       long_description=open("README.txt").read() + "\n" +
                        open("docs/INSTALL.txt").read() + "\n" +
                        open("docs/CHANGES.txt").read(),
-      # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
         "Framework :: Plone",
         "Programming Language :: Python",
@@ -40,4 +39,3 @@ setup(name='collective.pdfpeek',
       target = plone
       """,
       )
-
