@@ -71,6 +71,10 @@ buildout.cfg like so::
         collective.pdfpeek
         ...
 
+Then re-run your buildout like so::
+
+     bin/buildout
+
 For automatic processing of the PdfPeek job queue, a simple cron script using
 curl or wget would suffice. It is nice to keep all of the configuration for a
 project in your buildout, however. For this reason, a zope clock server process

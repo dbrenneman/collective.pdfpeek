@@ -28,7 +28,7 @@ into your Zope instance.
 Alternatively, if you are using zc.buildout and the plone.recipe.zope2instance
 recipe to manage your project, you can do this:
 
-* Add ``collective.pdfpeek`` to the list of eggs to install, e.g.:
+* Add ``collective.pdfpeek`` to the list of eggs to install, e.g.::
 
     [buildout]
     ...
@@ -36,15 +36,8 @@ recipe to manage your project, you can do this:
         ...
         collective.pdfpeek
        
-* Tell the plone.recipe.zope2instance recipe to install a ZCML slug:
-
-    [instance]
-    recipe = plone.recipe.zope2instance
-    ...
-    zcml =
-        collective.pdfpeek
       
-* Re-run buildout, e.g. with:
+* Re-run buildout, e.g. with::
 
     $ ./bin/buildout
         
