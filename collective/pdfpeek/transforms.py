@@ -14,7 +14,7 @@ __docformat__ = 'plaintext'
 
 import logging
 import subprocess
-import StringIO
+import cStringIO
 
 import pyPdf
 from PIL import Image
@@ -101,13 +101,13 @@ class convertPDFToImage(object):
         # pdf_file_object = StringIO.StringIO(pdf_file_data_string)
         # create a pyPdf object from the pdf file data
         try:
-            pdf = pyPdf.PdfFileReader(StringIO.StringIO(pdf_file_data_string))
+            pdf = pyPdf.PdfFileReader(cStringIO.StringIO(pdf_file_data_string))
         except:
             logger.warn("error opening pdf file, trying to fix it...")
             fixed_pdf_string = self.fixPdf(pdf_file_data_string)
             #try to reopen the pdf file again
             try:
-                pdf = pyPdf.PdfFileReader(StringIO.StringIO(fixed_pdf_string))
+                pdf = pyPdf.PdfFileReader(cStringIO.StringIO(fixed_pdf_string))
             except:
                 logger.warn("this pdf file cannot be fixed.")
 
@@ -147,18 +147,18 @@ class convertPDFToImage(object):
                     image_thumb_id = "%d_thumb" % page_number
                     image_thumb_title = "Page %d Thumbnail" % page_number
                     # create a file object to store the thumbnail and preview in
-                    raw_image_thumb = StringIO.StringIO('')
-                    raw_image_preview = StringIO.StringIO('')
+                    raw_image_thumb = cStringIO.StringIO()
+                    raw_image_preview = cStringIO.StringIO()
                     # run ghostscript, convert pdf page into image
                     raw_image = self.ghostscript_transform(
                         pdf_file_data_string, page_number)
                     # use PIL to generate thumbnail from jpeg
-                    img_thumb = Image.open(StringIO.StringIO(raw_image))
+                    img_thumb = Image.open(cStringIO.StringIO(raw_image))
                     img_thumb.thumbnail(thumb_size, Image.ANTIALIAS)
                     # save the resulting thumbnail in the file object
                     img_thumb.save(raw_image_thumb, "JPEG")
                     # use PIL to generate preview from jpeg
-                    img_preview = Image.open(StringIO.StringIO(raw_image))
+                    img_preview = Image.open(cStringIO.StringIO(raw_image))
                     img_preview.thumbnail(preview_size, Image.ANTIALIAS)
                     # save the resulting thumbnail in the file object
                     img_preview.save(raw_image_preview, "JPEG")
