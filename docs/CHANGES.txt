@@ -1,6 +1,15 @@
 Changelog
 =========
 
+0.19 (2010-4-8)
+----------------
+
+ - Modified transform to use cStringIO instead of StringIO, in the hopes of making things more efficient.
+   [dbrenneman]
+
+ - Modified conversion function to grab file data from object using getFile method, as this is the *proper* way of doing things...
+   [dbrenneman]
+
 0.18 (2010-2-26)
 ----------------
 
