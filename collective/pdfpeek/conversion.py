@@ -16,13 +16,9 @@ def convert_pdf_to_image(content):
     logger.info(msg)
     content_type = content.getFile().getContentType()
     if content_type == "application/pdf":
-        if type(content.getFile().data) != type(''):
-            pdf_file_data_string = str(content.file.data)
-        else:
-            pdf_file_data_string = content.getFile().data
+        pdf_file_data_string = str(content.getFile())
         msg = "Got A PDF file."
         logger.info(msg)
-        # this is a bug? we don't want to print out the contents of the file here
         msg = run_pdfpeek(content, pdf_file_data_string)
     return msg
 
