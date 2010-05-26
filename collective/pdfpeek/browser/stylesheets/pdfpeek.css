@@ -73,6 +73,11 @@ div.navi.disabled {
 	height:35px;
 	width:35px;
 	text-decoration:none;
+	z-index: 1000;
+}
+
+.overlay { 
+    z-index: 1001;
 }
 
 /* overlay scrollable */
