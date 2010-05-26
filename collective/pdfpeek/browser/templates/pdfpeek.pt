@@ -4,11 +4,11 @@
 
 <div id="thumbnails">
 	<div class="items">
-        <span tal:repeat="page context/view-image-annotation/num_pages">
-            <div tal:define="pagenum python:page + 1">
-		        <div><img src="img.jpg" tal:attributes="src string:${context/absolute_url}/++images++${pagenum}_thumb"/></div>
-            </div>
-        </span>
+        <tal:block tal:repeat="page context/view-image-annotation/num_pages">
+            <tal:block tal:define="pagenum python:page + 1">
+	      <img src="img.jpg" tal:attributes="src string:${context/absolute_url}/++images++${pagenum}_thumb"/>
+            </tal:block>
+        </tal:block>
 	</div>
 </div>
 
@@ -24,18 +24,13 @@
 
 		<div class="items">
 
-        <span tal:repeat="page context/view-image-annotation/num_pages">
-            <div tal:define="pagenum python:page + 1">
-			    <div title="02" tal:attributes="title string:++images++${pagenum}_preview">
-
-				    <div class="info">
-					    <h3>A Blue Flower</h3>
-
-					    <p>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur.</p>
-                    </div>
-                </div>
-            </div>
-        </span>
+        <div tal:repeat="page context/view-image-annotation/num_pages">
+            <tal:block tal:define="pagenum python:page + 1">
+	      <div title="02" tal:attributes="title string:++images++${pagenum}_preview">
+	
+	      </div>
+            </tal:block>
+        </div>
 		
 			
 		</div>
