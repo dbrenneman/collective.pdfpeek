@@ -48,12 +48,14 @@ def pdf_changed(content, event):
                 annotations = IAnnotations(content)
                 annotations['pdfpeek'] = {}
                 annotations['pdfpeek']['image_thumbnails'] = images
+                content.reindexObject()
             else:
                 noLongerProvides(content, IPDF)
                 IAnnotations(content)
                 annotations = IAnnotations(content)
                 if 'pdfpeek' in annotations:
                     del annotations['pdfpeek']
+                content.reindexObject()
         return None
 
 
@@ -69,7 +71,7 @@ def queue_document_conversion(content, event):
         content_type = content.getFile().getContentType()
         if (content_type in ALLOWED_CONVERSION_TYPES):
             # get the queue
-            conversion_queue = get_queue('collective.pdfpeek.conversion')
+            conversion_queue = get_queue('collective.pdfpeek.conversion_' + portal.id)
             # create a jodconverter job
             converter_job = Job(convert_pdf_to_image, content)
             # add it to the queue
@@ -84,7 +86,8 @@ def queue_image_removal(content):
     Queues the image removal if there is no longer a pdf
     file stored on the object
     """
-    conversion_queue = get_queue('collective.pdfpeek.conversion')
+    portal = getSite()
+    conversion_queue = get_queue('collective.pdfpeek.conversion_' + portal.id)
     removal_job = Job(remove_image_previews, content)
     conversion_queue.pending.append(removal_job)
     logger.info("Document Preview Image Removal Job Queued")

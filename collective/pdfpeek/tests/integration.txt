@@ -113,7 +113,8 @@ Let's check the default image sizes:
 
     >>> from zope.component import getUtility
     >>> from collective.pdfpeek.interfaces import IPDFPeekConfiguration
-    >>> config = getUtility(IPDFPeekConfiguration, name='pdfpeek_config', context=portal)
+    >>> config_name = 'pdfpeek_config_' + self.portal.id
+    >>> config = getUtility(IPDFPeekConfiguration, name=config_name, context=portal)
     >>> config.preview_width, config.preview_length
     (512, 512)
     >>> config.thumbnail_width, config.thumbnail_length
@@ -171,7 +172,8 @@ the event and fire the transform, annotating the results on the ATFile object:
 OK, now we should have a conversion job in the queue:
 
     >>> from collective.pdfpeek import async
-    >>> queue = async.get_queue('collective.pdfpeek.conversion')
+    >>> queue_name = 'collective.pdfpeek.conversion_' + self.portal.id
+    >>> queue = async.get_queue(queue_name)
     >>> queue.pending
     [<collective.pdfpeek.async.Job object at ...>]
 

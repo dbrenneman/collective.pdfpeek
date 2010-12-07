@@ -127,7 +127,7 @@ class convertPDFToImage(object):
                 portal = getSite()
                 config = getUtility(
                     IPDFPeekConfiguration,
-                    name='pdfpeek_config',
+                    name='pdfpeek_config_' + portal.id,
                     context=portal
                     )
                 # if we're dealing with a pdf file,

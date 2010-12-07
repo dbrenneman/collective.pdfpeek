@@ -13,7 +13,6 @@
       title="PDFpeek Import Step"
       description="Import steps for collective.pdfpeek"
       handler="collective.pdfpeek.setuphandlers.importVarious">
-    <!--<depends name="something.else"/>-->
   </genericsetup:importStep>
   <genericsetup:registerProfile
      name="uninstall"

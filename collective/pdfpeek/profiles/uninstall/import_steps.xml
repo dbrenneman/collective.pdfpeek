@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<import-steps>
+
+  <import-step id="collective.pdfpeek.uninstall"
+               version="20101207"
+               handler="collective.pdfpeek.setuphandlers.uninstall"
+               title="Remove collective.pdfpeek">
+  </import-step>
+
+</import-steps>

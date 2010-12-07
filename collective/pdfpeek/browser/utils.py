@@ -42,7 +42,7 @@ class pdfpeekUtilView(BrowserView):
     def _process_conversion_queue(self):
         msg = u''
         num = 0
-        queue = get_queue('collective.pdfpeek.conversion')
+        queue = get_queue('collective.pdfpeek.conversion_' + self.context.id)
         num = queue.process()
         if num:
             msg += u'%d Jobs in queue. Processing queue...\n' % num

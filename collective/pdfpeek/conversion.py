@@ -40,6 +40,7 @@ def run_pdfpeek(content, pdf_file_data_string):
         annotations = IAnnotations(content)
         annotations['pdfpeek'] = {}
         annotations['pdfpeek']['image_thumbnails'] = images
+        content.reindexObject()
         logger.info(successmsg)
         return successmsg
     else:
@@ -61,6 +62,7 @@ def remove_image_previews(content):
     annotations = IAnnotations(content)
     if 'pdfpeek' in annotations:
         del annotations['pdfpeek']
+    content.reindexObject()
     msg = "Removed preview annotations from %s." % content.id
     logger.info(msg)
     return msg

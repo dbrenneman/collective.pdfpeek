@@ -1,6 +1,13 @@
 Changelog
 =========
 
+1.2 (2010-12-7)
+----------------
+
+ - Fixed uninstall profile so that local persistent utilities are removed and 
+   image annotations are removed on uninstall of product.
+   [dbrenneman]
+
 1.0 (2010-5-27)
 ----------------
 
