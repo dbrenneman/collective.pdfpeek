@@ -48,14 +48,12 @@ class convertPDFToImage(object):
         gs_cmd = [
             "gs",
             "-q",
-            "-sDEVICE=jpeg",
-            "-dJPEGQ=99",
-            "-dGraphicsAlphaBits=4",
-            "-dTextAlphaBits=4",
-            "-dDOINTERPOLATE",
             "-dSAFER",
             "-dBATCH",
             "-dNOPAUSE",
+            "-sDEVICE=png16m",
+            "-dGraphicsAlphaBits=4",
+            "-dTextAlphaBits=4",
             first_page,
             last_page,
             "-r59x56",
@@ -63,20 +61,24 @@ class convertPDFToImage(object):
             "-",
             ]
 
-        jpeg = None
+        image_result = None
         """run the ghostscript command on the pdf file,
         capture the output png file of the specified page number"""
-        gs_process = subprocess.Popen(gs_cmd,stdout=subprocess.PIPE,stdin=subprocess.PIPE,)
+        bufsize = -1
+        gs_process = subprocess.Popen(gs_cmd,
+                                      bufsize=bufsize,
+                                      stdout=subprocess.PIPE,
+                                      stdin=subprocess.PIPE)
         gs_process.stdin.write(pdf)
-        jpeg = gs_process.communicate()[0]
+        image_result = gs_process.communicate()[0]
         gs_process.stdin.close()
         return_code = gs_process.returncode
         if return_code == 0:
             logger.info("Ghostscript processed one page of a pdf file.")
         else:
             logger.warn("Ghostscript process did not exit cleanly! Error Code: %d" % (return_code))
-            jpeg = None
-        return jpeg
+            image_result = None
+        return image_result
 
     #check if the pdf is corrupted, and try to fix it...
     def fixPdf(self, string):
@@ -152,16 +154,16 @@ class convertPDFToImage(object):
                     # run ghostscript, convert pdf page into image
                     raw_image = self.ghostscript_transform(
                         pdf_file_data_string, page_number)
-                    # use PIL to generate thumbnail from jpeg
+                    # use PIL to generate thumbnail from image_result
                     img_thumb = Image.open(cStringIO.StringIO(raw_image))
                     img_thumb.thumbnail(thumb_size, Image.ANTIALIAS)
                     # save the resulting thumbnail in the file object
-                    img_thumb.save(raw_image_thumb, "JPEG")
-                    # use PIL to generate preview from jpeg
+                    img_thumb.save(raw_image_thumb, "PNG")
+                    # use PIL to generate preview from image_result
                     img_preview = Image.open(cStringIO.StringIO(raw_image))
                     img_preview.thumbnail(preview_size, Image.ANTIALIAS)
                     # save the resulting thumbnail in the file object
-                    img_preview.save(raw_image_preview, "JPEG")
+                    img_preview.save(raw_image_preview, "PNG")
                     # create the OFS.Image objects
                     image_full_object = OFSImage(image_id, image_title, raw_image_preview)
                     image_thumb_object = OFSImage(image_thumb_id, image_thumb_title, raw_image_thumb)
