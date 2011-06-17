@@ -26,9 +26,11 @@ setup(name='collective.pdfpeek',
       zip_safe=False,
       install_requires=[
           'setuptools',
+          'pyPdf',
           'plone.app.registry',
           'plone.browserlayer',
-          'pyPdf',
+          'plone.mocktestcase>=1.0b3',
+          'Products.PloneTestCase',
           ],
       extras_require = {
           'test': [

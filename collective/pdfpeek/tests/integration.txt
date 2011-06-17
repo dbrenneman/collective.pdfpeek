@@ -112,9 +112,10 @@ Let's set the image using our image test file:
 Let's check the default image sizes:
 
     >>> from zope.component import getUtility
+    >>> from plone.registry.interfaces import IRegistry
     >>> from collective.pdfpeek.interfaces import IPDFPeekConfiguration
-    >>> config_name = 'pdfpeek_config_' + self.portal.id
-    >>> config = getUtility(IPDFPeekConfiguration, name=config_name, context=portal)
+    >>> registry = getUtility(IRegistry)
+    >>> config = registry.forInterface(IPDFPeekConfiguration)
     >>> config.preview_width, config.preview_length
     (512, 512)
     >>> config.thumbnail_width, config.thumbnail_length
