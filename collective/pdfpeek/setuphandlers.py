@@ -16,7 +16,6 @@ from zope.annotation.interfaces import IAnnotations
 from zope.interface import noLongerProvides
 from Products.CMFCore.utils import getToolByName
 
-from collective.pdfpeek.browser.pdf import PDFPeekConfiguration
 from collective.pdfpeek.interfaces import IPDFPeekConfiguration
 from collective.pdfpeek.interfaces import IPDF
 from collective.pdfpeek.async import IQueue
@@ -35,13 +34,6 @@ def importVarious(context):
     config_name = 'pdfpeek_config_' + portal.id
     sm = portal.getSiteManager()
 
-    if not sm.queryUtility(IPDFPeekConfiguration, name=config_name):
-        sm.registerUtility(
-            PDFPeekConfiguration(),
-            IPDFPeekConfiguration,
-            config_name
-            )
-
 
 def uninstall(context):
     if context.readDataFile('collective.pdfpeek.uninstall.txt') is None:
@@ -55,11 +47,6 @@ def unregisterUtilities(context):
     portal = context.getSite()
     setSite(portal)
     sm = getSiteManager(portal)
-    config_name = 'pdfpeek_config_' + portal.id
-    pdfpeek_config_utility = getUtility(IPDFPeekConfiguration, config_name)
-    sm.unregisterUtility(pdfpeek_config_utility, IPDFPeekConfiguration)
-    del pdfpeek_config_utility
-    logger.info("Removed PDFpeek Configuration")
     queue_name = 'collective.pdfpeek.conversion_' + portal.id
     queue = queryUtility(IQueue, queue_name)
     if queue is not None:

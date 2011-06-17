@@ -24,6 +24,8 @@ from zope.component import getUtility
 from zope.app.component.hooks import getSite
 from OFS.Image import Image as OFSImage
 
+from plone.registry.interfaces import IRegistry
+
 from collective.pdfpeek.interfaces import IConvertPDFToImage
 from collective.pdfpeek.interfaces import IPDFPeekConfiguration
 
@@ -126,14 +128,10 @@ class convertPDFToImage(object):
             document_page_count = pdf.getNumPages()
             logger.info("Found a PDF file with %d pages." % (document_page_count))
             if document_page_count > 0:
-                portal = getSite()
-                config = getUtility(
-                    IPDFPeekConfiguration,
-                    name='pdfpeek_config_' + portal.id,
-                    context=portal
-                    )
                 # if we're dealing with a pdf file,
                 # set the thumbnail size
+                registry = getUtility(IRegistry)
+                config = registry.forInterface(IPDFPeekConfiguration)
                 thumb_size = (config.thumbnail_width, config.thumbnail_length)
                 preview_size = (config.preview_width, config.preview_length)
                 # set up the images dict

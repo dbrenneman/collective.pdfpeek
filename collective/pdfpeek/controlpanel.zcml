@@ -1,0 +1,21 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="collective.pdfpeek">
+
+  <include package="plone.app.registry" />
+
+  <browser:page
+      name="pdfpeek-config"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      class=".controlpanel.PDFPeekControlPanel"
+      permission="cmf.ManagePortal"
+      />
+
+</configure>
+
+
+

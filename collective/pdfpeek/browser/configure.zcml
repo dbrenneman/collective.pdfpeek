@@ -28,18 +28,6 @@
         />
 
     <browser:page
-        for="Products.CMFPlone.Portal.PloneSite"
-        name="pdfpeek"
-        class=".pdf.PDFPeekControlPanel"
-        permission="cmf.ManagePortal"
-        />
-
-    <adapter
-        for="*"
-        provides="collective.pdfpeek.interfaces.IPDFPeekConfiguration"
-        factory=".pdf.form_adapter" />
-
-    <browser:page
         for="collective.pdfpeek.interfaces.IPDF"
         name="view-image-annotation"
         class=".pdf.PdfImageAnnotationView"

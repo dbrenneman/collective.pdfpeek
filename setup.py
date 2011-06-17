@@ -18,7 +18,7 @@ setup(name='collective.pdfpeek',
       keywords='Plone Zope Python PDF',
       author='David Brenneman',
       author_email='db@davidbrenneman.com',
-      url='https://svn.plone.org/svn/collective/collective.pdfpeek',
+      url='https://github.com/dbrenneman/collective.pdfpeek',
       license='GPL',
       packages=find_packages(exclude=['ez_setup']),
       namespace_packages=['collective'],
@@ -26,13 +26,15 @@ setup(name='collective.pdfpeek',
       zip_safe=False,
       install_requires=[
           'setuptools',
+          'plone.app.registry',
           'plone.browserlayer',
           'pyPdf',
-          'Products.PloneTestCase',
-          'plone.mocktestcase>=1.0b3',
           ],
       extras_require = {
-          'test': ['Products.PloneTestCase']
+          'test': [
+              'Products.PloneTestCase',
+              'plone.mocktestcase>=1.0b3',
+              ]
           },
       entry_points="""
       [z3c.autoinclude.plugin]

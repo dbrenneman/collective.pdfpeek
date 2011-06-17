@@ -1,9 +1,19 @@
 <?xml version="1.0"?>
-<object name="portal_controlpanel">
- <configlet title="PDF Peek" action_id="collective.pdfpeek"
-    appId="collective.pdfpeek" category="Products" condition_expr=""
-    url_expr="string:${portal_url}/pdfpeek"
-    visible="True">
-  <permission>collective.pdfpeek: Manage PDF Peek</permission>
+<object 
+   name="portal_controlpanel"
+   xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+   i18n:domain="collective.pdfpeek"
+   purge="False">
+
+ <configlet
+    title="PDF Peek"
+    action_id="pdfpeek"
+    appId="collective.pdfpeek"
+    category="Products"
+    condition_expr=""
+    url_expr="string:${portal_url}/@@pdfpeek-settings"
+    visible="True"
+    i18n:attributes="title">
+  <permission>Manage portal</permission>
  </configlet>
 </object>

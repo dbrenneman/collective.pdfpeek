@@ -36,7 +36,8 @@ def pdf_changed(content, event):
     """
     portal = getSite()
     if 'collective.pdfpeek' in portal.portal_quickinstaller.objectIds():
-        config = getUtility(IPDFPeekConfiguration, name='pdfpeek_config', context=portal)
+        registry = getUtility(IRegistry)
+        config = registry.forInterface(IPDFPeekConfiguration)
         if config.eventhandler_toggle == True:
             if content.getContentType() == 'application/pdf':
                 """Mark the object with the IPDF marker interface."""
@@ -72,7 +73,7 @@ def queue_document_conversion(content, event):
         if (content_type in ALLOWED_CONVERSION_TYPES):
             # get the queue
             conversion_queue = get_queue('collective.pdfpeek.conversion_' + portal.id)
-            # create a jodconverter job
+            # create a converter job
             converter_job = Job(convert_pdf_to_image, content)
             # add it to the queue
             conversion_queue.pending.append(converter_job)

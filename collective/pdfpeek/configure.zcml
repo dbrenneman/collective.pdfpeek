@@ -10,6 +10,7 @@
   <include package=".browser" />
   <include package="." file="genericsetup.zcml" />
   <include package="." file="events.zcml" />
+  <include package="." file="controlpanel.zcml" />
 
   <adapter 
     factory=".traversal.PDFPeekImageScaleTraverser"
