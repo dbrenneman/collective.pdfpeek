@@ -11,7 +11,8 @@
     appId="collective.pdfpeek"
     category="Products"
     condition_expr=""
-    url_expr="string:${portal_url}/@@pdfpeek-settings"
+    icon_expr="string:$portal_url/++resource++collective.pdfpeek.images/pdfpeek_icon.png"
+    url_expr="string:${portal_url}/@@pdfpeek-config"
     visible="True"
     i18n:attributes="title">
   <permission>Manage portal</permission>
